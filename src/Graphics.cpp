@@ -4,6 +4,6 @@ Graphics::Graphics() {
 
 }
 
-Graphics::drawSquare() {
+void Graphics::drawSquare() {
    
 }
