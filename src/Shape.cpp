@@ -104,18 +104,6 @@ void Shape::loadMesh(const string &meshName)
 	}
 }
 
-/* Note this is fairly dorky - */
-void Shape::ComputeTex() {
-    float u, v;
-    
-    for (size_t n = 0; n < norBuf.size()/3; n++) {
-        u = norBuf[n*3+0]/2.0 + 0.5;
-        v = norBuf[n*3+1]/2.0 + 0.5;
-        texBuf[n*3+0] = u;
-        texBuf[n*3+1] = v;
-    }
-}
-
 void Shape::resize() {
   float minX, minY, minZ;
    float maxX, maxY, maxZ;
@@ -193,23 +181,14 @@ void Shape::init()
 		glBufferData(GL_ARRAY_BUFFER, norBuf.size()*sizeof(float), &norBuf[0], GL_STATIC_DRAW);
 	}
 	
-    // Send the texture array to the GPU
-    if(texBuf.empty()) {
-        //texBufID = 0;
-        //send in spherical constructed
-        for (size_t v = 0; v < posBuf.size(); v++) {
-            texBuf.push_back(0);
-        }
-        ComputeTex();
-        
-        glGenBuffers(1, &texBufID);
-        glBindBuffer(GL_ARRAY_BUFFER, texBufID);
-        glBufferData(GL_ARRAY_BUFFER, texBuf.size()*sizeof(float), &texBuf[0], GL_STATIC_DRAW);
-    } else {
-        glGenBuffers(1, &texBufID);
-        glBindBuffer(GL_ARRAY_BUFFER, texBufID);
-        glBufferData(GL_ARRAY_BUFFER, texBuf.size()*sizeof(float), &texBuf[0], GL_STATIC_DRAW);
-    }
+	// Send the texture array to the GPU
+	if(texBuf.empty()) {
+		texBufID = 0;
+	} else {
+		glGenBuffers(1, &texBufID);
+		glBindBuffer(GL_ARRAY_BUFFER, texBufID);
+		glBufferData(GL_ARRAY_BUFFER, texBuf.size()*sizeof(float), &texBuf[0], GL_STATIC_DRAW);
+	}
 	
 	// Send the element array to the GPU
 	glGenBuffers(1, &eleBufID);
@@ -243,15 +222,15 @@ void Shape::draw(const shared_ptr<Program> prog) const
 		glVertexAttribPointer(h_nor, 3, GL_FLOAT, GL_FALSE, 0, (const void *)0);
 	}
 
-	// // if (texBufID != 0) {	
-	// 	// Bind texcoords buffer
-	// 	h_tex = prog->getAttribute("vertTex");
-	// 	if(h_tex != -1 && texBufID != 0) {
-	// 		GLSL::enableVertexAttribArray(h_tex);
-	// 		glBindBuffer(GL_ARRAY_BUFFER, texBufID);
-	// 		glVertexAttribPointer(h_tex, 2, GL_FLOAT, GL_FALSE, 0, (const void *)0);
-	// 	}
-	// // }
+	if (texBufID != 0) {	
+		// Bind texcoords buffer
+		h_tex = prog->getAttribute("vertTex");
+		if(h_tex != -1 && texBufID != 0) {
+			GLSL::enableVertexAttribArray(h_tex);
+			glBindBuffer(GL_ARRAY_BUFFER, texBufID);
+			glVertexAttribPointer(h_tex, 2, GL_FLOAT, GL_FALSE, 0, (const void *)0);
+		}
+	}
 
 	// Bind element buffer
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, eleBufID);

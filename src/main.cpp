@@ -36,7 +36,7 @@ typedef struct {
 } Camera;
 
 GLFWwindow *window; // Main application window
-string RESOURCE_DIR = "../resources/"; // Where the resources are loaded from
+string RESOURCE_DIR = "../../resources/"; // Where the resources are loaded from
 shared_ptr<Program> phongProg;
 shared_ptr<Program> groundProg;
 shared_ptr<Shape> bunny;

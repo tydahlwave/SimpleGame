@@ -17,7 +17,6 @@ public:
 	void init();
 	void resize();
 	void draw(const std::shared_ptr<Program> prog) const;
-    void ComputeTex();
 	
 private:
 	void computeNormals();
@@ -29,7 +28,7 @@ private:
 	unsigned posBufID;
 	unsigned norBufID;
 	unsigned texBufID;
-    unsigned vaoID;
+   unsigned vaoID;
 };
 
 #endif
