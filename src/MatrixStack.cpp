@@ -27,6 +27,14 @@ void MatrixStack::popMatrix()
    assert(!mstack->empty());
 }
 
+void MatrixStack::reset()
+{
+    while (mstack->size() > 1) {
+        mstack->pop();
+    }
+    loadIdentity();
+}
+
 void MatrixStack::loadIdentity()
 {
    mat4 &top = mstack->top();

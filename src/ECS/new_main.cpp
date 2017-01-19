@@ -16,6 +16,7 @@
 #include "RenderSystem.h"
 #include "ShaderSystem.h"
 //#include "EntityManager.h"
+#include "EntityFactory.h"
 #include "World.h"
 
 using namespace std;
@@ -74,7 +75,7 @@ static void initGeom() {
 }
 
 void initGameObjects() {
-    
+//    int sheep = EntityFactory::createSheep();
 }
 
 int main(int argc, char **argv) {

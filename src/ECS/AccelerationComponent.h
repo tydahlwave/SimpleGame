@@ -9,9 +9,13 @@
 #ifndef AccelerationComponent_h
 #define AccelerationComponent_h
 
+#include "glm/glm.hpp"
+
+using namespace glm;
+
 class AccelerationComponent {
 public:
-    float x, y, z;
+    vec3 value;
 };
 
 #endif /* AccelerationComponent_h */

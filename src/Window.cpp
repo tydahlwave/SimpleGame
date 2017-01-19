@@ -77,6 +77,8 @@ int Window::initialize() {
     glfwSetCursorPosCallback(window, mouse_move_callback);
     //set the window resize call back
     glfwSetFramebufferSizeCallback(window, resize_callback);
+    
+    return 0;
 }
 
 void Window::terminate() {

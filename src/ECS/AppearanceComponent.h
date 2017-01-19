@@ -9,9 +9,12 @@
 #ifndef AppearanceComponent_h
 #define AppearanceComponent_h
 
+#include <string>
+
 class AppearanceComponent {
 public:
     string meshName;
+    string shaderName;
 };
 
 #endif /* AppearanceComponent_h */

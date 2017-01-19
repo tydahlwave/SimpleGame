@@ -9,9 +9,13 @@
 #ifndef VelocityComponent_h
 #define VelocityComponent_h
 
+#include "glm/glm.hpp"
+
+using namespace glm;
+
 class VelocityComponent {
 public:
-    float x, y, z;
+    vec3 value;
 };
 
 #endif /* VelocityComponent_h */

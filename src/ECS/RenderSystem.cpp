@@ -36,9 +36,9 @@ void RenderSystem::render(ShaderSystem &shaderSystem, Window &window) {
     // Clear framebuffer.
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
-    for (int i = 0; i < MAX_ENTITIES; i++) {
-        int entity = World::entity[i];
-        if ((entity & RENDER_MASK) == RENDER_MASK) {
+    for (int entity = 0; entity < MAX_ENTITIES; entity++) {
+        int entityMask = World::entity[entity];
+        if ((entityMask & RENDER_MASK) == RENDER_MASK) {
 //            ShaderManager::beginNormalShading();
             shared_ptr<Shape> shape = shapes[World::entityType[entity].type];
             shared_ptr<Program> shader = shaderSystem.getShaderByName(World::shaderType[entity].type);

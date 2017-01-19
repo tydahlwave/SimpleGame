@@ -11,8 +11,8 @@
 
 class EntityFactory {
 public:
-    int createPlayer();
-    int createSheep();
+    static int createPlayer();
+    static int createSheep();
 };
 
 #endif /* EntityFactory_h */

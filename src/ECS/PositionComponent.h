@@ -9,9 +9,13 @@
 #ifndef PositionComponent_h
 #define PositionComponent_h
 
+#include "glm/glm.hpp"
+
+using namespace glm;
+
 class PositionComponent {
 public:
-    float x, y, z;
+    vec3 value;
 };
 
 #endif /* PositionComponent_h */

@@ -19,6 +19,7 @@ HealthComponent World::health[MAX_ENTITIES] = {};
 EntityTypeComponent World::entityType[MAX_ENTITIES] = {};
 ShaderTypeComponent World::shaderType[MAX_ENTITIES] = {};
 TransformComponent World::transform[MAX_ENTITIES] = {};
+UserInputComponent World::userInput[MAX_ENTITIES] = {};
 
 int World::createEntity() {
     for (int i = 0; i < MAX_ENTITIES; i++) {

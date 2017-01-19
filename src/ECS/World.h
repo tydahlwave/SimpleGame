@@ -16,6 +16,7 @@
 #include "EntityTypeComponent.h"
 #include "ShaderTypeComponent.h"
 #include "TransformComponent.h"
+#include "UserInputComponent.h"
 
 static const int MAX_ENTITIES = 1;
 
@@ -26,7 +27,8 @@ enum Component { // Max of 32 components
     COMP_RENDER         = 1 << 2,
     COMP_ENTITY_TYPE    = 1 << 3,
     COMP_SHADER_TYPE    = 1 << 4,
-    COMP_TRANSFORM      = 1 << 5
+    COMP_TRANSFORM      = 1 << 5,
+    COMP_USER_INPUT     = 1 << 6
 };
 
 class World {
@@ -39,6 +41,7 @@ public:
     static EntityTypeComponent entityType[MAX_ENTITIES];
     static ShaderTypeComponent shaderType[MAX_ENTITIES];
     static TransformComponent transform[MAX_ENTITIES];
+    static UserInputComponent userInput[MAX_ENTITIES];
     
     static int createEntity();
     static void removeEntity(unsigned int id);
