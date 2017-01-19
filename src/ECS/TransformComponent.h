@@ -9,7 +9,7 @@
 #ifndef TransformComponent_h
 #define TransformComponent_h
 
-#include "MatrixStack.h"
+#include "../MatrixStack.h"
 
 class TransformComponent {
 public:

@@ -14,18 +14,13 @@
 #include "../Program.h"
 #include "../Shape.h"
 #include "RenderSystem.h"
+#include "ShaderSystem.h"
 //#include "EntityManager.h"
 #include "World.h"
 
 using namespace std;
 
 string RESOURCE_DIR = "../../resources/"; // Where the resources are loaded from
-shared_ptr<Program> phongProg;
-shared_ptr<Program> groundProg;
-shared_ptr<Shape> bunny;
-shared_ptr<Shape> sphere;
-shared_ptr<Shape> cube;
-shared_ptr<Shape> robot;
 
 GLuint VertexArrayID;
 GLuint groundBuffer;
@@ -48,7 +43,7 @@ static const GLfloat g_ground_normals_buffer_data[] = {
 };
 
 
-static void init(RenderSystem &renderer)
+static void init(RenderSystem &renderer, ShaderSystem &shader)
 {
     GLSL::checkVersion();
     
@@ -58,44 +53,8 @@ static void init(RenderSystem &renderer)
     glEnable(GL_DEPTH_TEST);
     
     renderer.loadShape("bunny");
-    
-    // Initialize the GLSL program.
-    phongProg = make_shared<Program>();
-    phongProg->setVerbose(true);
-    phongProg->setShaderNames(RESOURCE_DIR + "phong_vert.glsl", RESOURCE_DIR + "phong_frag.glsl");
-    phongProg->init();
-    phongProg->addUniform("P");
-    phongProg->addUniform("M");
-    phongProg->addUniform("V");
-    phongProg->addAttribute("vertPos");
-    phongProg->addAttribute("vertNor");
-    phongProg->addUniform("lightPos");
-    phongProg->addUniform("lightColor");
-    phongProg->addUniform("sunDir");
-    phongProg->addUniform("sunColor");
-    phongProg->addUniform("matDiffuseColor");
-    phongProg->addUniform("matSpecularColor");
-    phongProg->addUniform("matAmbientColor");
-    phongProg->addUniform("matShine");
-    
-    // Initialize the GLSL program.
-    groundProg = make_shared<Program>();
-    groundProg->setVerbose(true);
-    groundProg->setShaderNames(RESOURCE_DIR + "ground_vert.glsl", RESOURCE_DIR + "ground_frag.glsl");
-    groundProg->init();
-    groundProg->addUniform("P");
-    groundProg->addUniform("M");
-    groundProg->addUniform("V");
-    groundProg->addAttribute("vertPos");
-    groundProg->addAttribute("vertNor");
-    groundProg->addUniform("lightPos");
-    groundProg->addUniform("lightColor");
-    groundProg->addUniform("sunDir");
-    groundProg->addUniform("sunColor");
-    groundProg->addUniform("matDiffuseColor");
-    groundProg->addUniform("matSpecularColor");
-    groundProg->addUniform("matAmbientColor");
-    groundProg->addUniform("matShine");
+    shader.loadPhong();
+    shader.loadGround();
 }
 
 static void initGeom() {
@@ -114,18 +73,23 @@ static void initGeom() {
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_ground_normals_buffer_data), g_ground_normals_buffer_data, GL_DYNAMIC_DRAW);
 }
 
+void initGameObjects() {
+    
+}
+
 int main(int argc, char **argv) {
     Window window;
-    RenderSystem renderer;
+    RenderSystem renderSystem;
+    ShaderSystem shaderSystem;
 //    Graphics graphics = new Graphics();
     
     // Initialization
     window.initialize();
-//    initGameObjects();
+    initGameObjects();
     
     // Initialize scene. Note geometry initialized in init now
-    init(renderer);
-//    initGeom();
+    init(renderSystem, shaderSystem);
+    initGeom();
     
     // Game loop
     while (!window.shouldClose()) {
@@ -135,7 +99,7 @@ int main(int argc, char **argv) {
 //        }
         
         // Render scene.
-        renderer.render(window, groundProg);
+        renderSystem.render(shaderSystem, window);
         // Update camera;
 //        updateCamera();
         

@@ -31,7 +31,7 @@ void RenderSystem::loadShape(string filename) {
     shapes[filename] = shape;
 }
 
-void RenderSystem::render(Window &window, const shared_ptr<Program> prog) {
+void RenderSystem::render(ShaderSystem &shaderSystem, Window &window) {
     glViewport(0, 0, window.getWidth(), window.getHeight());
     // Clear framebuffer.
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -41,7 +41,8 @@ void RenderSystem::render(Window &window, const shared_ptr<Program> prog) {
         if ((entity & RENDER_MASK) == RENDER_MASK) {
 //            ShaderManager::beginNormalShading();
             shared_ptr<Shape> shape = shapes[World::entityType[entity].type];
-            
+            shared_ptr<Program> shader = shaderSystem.getShaderByName(World::shaderType[entity].type);
+            drawShape(entity, window, shape, shader);
         }
     }
 }
@@ -59,28 +60,23 @@ void applyCameraMatrix(Camera &camera, const shared_ptr<Program> prog) {
     glUniformMatrix4fv(prog->getUniform("V"), 1, GL_FALSE, value_ptr(V->topMatrix()));
 }
 
-void drawShape(int entity, Window &window, const shared_ptr<Shape> shape, const shared_ptr<Program> prog) {
-    prog->bind();
-    applyPerspectiveMatrix(window, prog);
-    applyCameraMatrix(camera, prog);
-    applyTransformMatrix(transform, prog);
+void applyTransformMatrix(MatrixStack &transforms, const shared_ptr<Program> prog) {
+    glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, value_ptr(transforms.topMatrix()));
+}
+
+void RenderSystem::drawShape(int entity, Window &window, const shared_ptr<Shape> shape, const shared_ptr<Program> shader) {
+    shader->bind();
     
-//    glUniform3f(prog->getUniform("lightPos"), light.pos[0] + lightPosOffset, light.pos[1], light.pos[2]);
-//    glUniform3f(prog->getUniform("lightColor"), light.color[0], light.color[1], light.color[2]);
-//    glUniform3f(prog->getUniform("sunDir"), sun.dir[0], sun.dir[1], sun.dir[2]);
-//    glUniform3f(prog->getUniform("sunColor"), sun.color[0], sun.color[1], sun.color[2]);
-//    SetMaterial(material, prog);
+    Camera camera;
+    camera.pos = vec3(0, 0, 0);
+    camera.lookAt = vec3(0, 0, 1);
+    camera.up = vec3(0, 1, 0);
     
-    PositionComponent position = World::position[entity];
+    applyPerspectiveMatrix(window, shader);
+    applyCameraMatrix(camera, shader);
+    applyTransformMatrix(World::transform[entity].transforms, shader);
     
-    // Draw mesh
-    auto M = make_shared<MatrixStack>();
-    M->pushMatrix();
-    M->translate(vec3(position.x, position.y, position.z));
-        M->rotate(rand(), vec3(0, 1, 0));
-        
-        glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, value_ptr(M->topMatrix()));
-            shape->draw(prog);
-    M->popMatrix();
-    prog->unbind();
+    shape->draw(shader);
+    
+    shader->unbind();
 }

@@ -9,16 +9,20 @@
 #ifndef ShaderTypeComponent_h
 #define ShaderTypeComponent_h
 
-enum ShaderType {
-    Player,
-    Sheep,
-    Tree,
-    Wolf
-};
+#include <string>
+
+using namespace std;
+
+//enum ShaderType {
+//    Player,
+//    Sheep,
+//    Tree,
+//    Wolf
+//};
 
 class ShaderTypeComponent {
 public:
-    ShaderType type;
+    string type;
 };
 
 #endif /* ShaderTypeComponent_h */

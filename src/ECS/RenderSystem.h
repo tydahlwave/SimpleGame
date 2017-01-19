@@ -16,7 +16,9 @@
 
 #include "Entity.h"
 #include "../Shape.h"
+#include "../Program.h"
 #include "../Window.h"
+#include "ShaderSystem.h"
 
 using namespace std;
 
@@ -26,8 +28,10 @@ public:
     virtual ~RenderSystem() {}
     
     void loadShape(string filename);
-    void render(Window &window, const shared_ptr<Program> prog);
+    void render(ShaderSystem &shaderSystem, Window &window);
 private:
+    void drawShape(int entity, Window &window, const shared_ptr<Shape> shape, const shared_ptr<Program> shader);
+    
     map<string, shared_ptr<Shape>> shapes;
 };
 
