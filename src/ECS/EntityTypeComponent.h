@@ -9,16 +9,21 @@
 #ifndef EntityTypeComponent_h
 #define EntityTypeComponent_h
 
-enum EntityType {
-    Player,
-    Sheep,
-    Tree,
-    Wolf
-};
+#include <string>
+
+using namespace std;
+
+//enum EntityType {
+//    Player = "player",
+//    Sheep = "sheep",
+//    Tree = "tree",
+//    Wolf = "wolf",
+//    Bunny = "bunny"
+//};
 
 class EntityTypeComponent {
 public:
-    EntityType type;
+    string type;
 };
 
 #endif /* EntityTypeComponent_h */

@@ -10,6 +10,15 @@
 
 #include "World.h"
 
+// Initialize static arrays
+int World::entity[MAX_ENTITIES] = {};
+PositionComponent World::position[MAX_ENTITIES] = {};
+VelocityComponent World::velocity[MAX_ENTITIES] = {};
+AccelerationComponent World::acceleration[MAX_ENTITIES] = {};
+HealthComponent World::health[MAX_ENTITIES] = {};
+EntityTypeComponent World::entityType[MAX_ENTITIES] = {};
+ShaderTypeComponent World::shaderType[MAX_ENTITIES] = {};
+TransformComponent World::transform[MAX_ENTITIES] = {};
 
 int World::createEntity() {
     for (int i = 0; i < MAX_ENTITIES; i++) {

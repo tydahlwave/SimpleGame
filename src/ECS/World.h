@@ -14,8 +14,20 @@
 #include "AccelerationComponent.h"
 #include "HealthComponent.h"
 #include "EntityTypeComponent.h"
+#include "ShaderTypeComponent.h"
+#include "TransformComponent.h"
 
 static const int MAX_ENTITIES = 1;
+
+enum Component { // Max of 32 components
+    COMP_POSITION       = 0,
+    COMP_VELOCITY       = 1 << 0,
+    COMP_HEALTH         = 1 << 1,
+    COMP_RENDER         = 1 << 2,
+    COMP_ENTITY_TYPE    = 1 << 3,
+    COMP_SHADER_TYPE    = 1 << 4,
+    COMP_TRANSFORM      = 1 << 5
+};
 
 class World {
 public:
@@ -25,6 +37,8 @@ public:
     static AccelerationComponent acceleration[MAX_ENTITIES];
     static HealthComponent health[MAX_ENTITIES];
     static EntityTypeComponent entityType[MAX_ENTITIES];
+    static ShaderTypeComponent shaderType[MAX_ENTITIES];
+    static TransformComponent transform[MAX_ENTITIES];
     
     static int createEntity();
     static void removeEntity(unsigned int id);
@@ -32,13 +46,5 @@ public:
 private:
     void test();
 };
-
-// Initialize static arrays
-int World::entity[MAX_ENTITIES] = {};
-PositionComponent World::position[MAX_ENTITIES] = {};
-VelocityComponent World::velocity[MAX_ENTITIES] = {};
-AccelerationComponent World::acceleration[MAX_ENTITIES] = {};
-HealthComponent World::health[MAX_ENTITIES] = {};
-EntityTypeComponent World::entityType[MAX_ENTITIES] = {};
 
 #endif /* World_h */

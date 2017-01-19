@@ -16,12 +16,13 @@
 
 static const int MAX_ENTITIES = 100;
 
-enum Component { // Max of 32 components
-    COMP_POSITION   = 0,
-    COMP_VELOCITY   = 1 << 0,
-    COMP_HEALTH     = 1 << 1,
-    COMP_RENDER     = 1 << 2
-};
+//enum Component { // Max of 32 components
+//    COMP_POSITION   = 0,
+//    COMP_VELOCITY   = 1 << 0,
+//    COMP_HEALTH     = 1 << 1,
+//    COMP_RENDER     = 1 << 2,
+//    COMP_APPEARANCE = 1 << 3
+//};
 
 class EntityManager {
 public:

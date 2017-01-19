@@ -5,60 +5,64 @@
 #include <stack>
 #include <memory>
 
-#define EIGEN_DONT_ALIGN_STATICALLY
-#include <Eigen/Dense>
+#include "glm/glm.hpp"
+#include "glm/vec4.hpp"
+#include "glm/mat4x4.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+//#include "vector_angle.hpp"
+//#include "component_wise.hpp"
 
-class MatrixStack
-{
+//#include "matrix_access.hpp"
+//#include "matrix_integer.hpp"
+//#include "matrix_inverse.hpp"
+
+using namespace glm;
+
+class MatrixStack {
+
+	std::shared_ptr< std::stack<mat4> > mstack;
+
 public:
-	EIGEN_MAKE_ALIGNED_OPERATOR_NEW
-	
-	MatrixStack();
+
+   MatrixStack();   
 	virtual ~MatrixStack();
-	
-	// glPushMatrix(): Copies the current matrix and adds it to the top of the stack
-	void pushMatrix();
-	// glPopMatrix(): Removes the top of the stack and sets the current matrix to be the matrix that is now on top
-	void popMatrix();
-	
-	// glLoadIdentity(): Sets the top matrix to be the identity
-	void loadIdentity();
-	// glMultMatrix(): Right multiplies the top matrix
-	void multMatrix(const Eigen::Matrix4f &matrix);
-	
-	// glTranslate(): Right multiplies the top matrix by a translation matrix
-	void translate(const Eigen::Vector3f &trans);
-	// glScale(): Right multiplies the top matrix by a scaling matrix
-	void scale(const Eigen::Vector3f &scale);
-	// glScale(): Right multiplies the top matrix by a scaling matrix
-	void scale(float size);
-	// glRotate(): Right multiplies the top matrix by a rotation matrix (angle in deg)
-	void rotate(float angle, const Eigen::Vector3f &axis);
-	
-	// glGet(GL_MODELVIEW_MATRIX): Gets the top matrix
-	const Eigen::Matrix4f &topMatrix() const;
-	
-	// glOrtho(): Sets the top matrix to be an orthogonal projection matrix
-	void ortho(float left, float right, float bottom, float top, float zNear, float zFar);
-	// gluOrtho2D(): Sets the top matrix to be a 2D orthogonal projection matrix
-	void ortho2D(float left, float right, float bottom, float top);
-	// gluPerspective(): Sets the top matrix to be a perspective projection matrix (fovy in deg)
-	void perspective(float fovy, float aspect, float zNear, float zFar);
-	// gluFrustum(): Sets the top matrix to be a perspective projection matrix
-	void frustum(float Right, float right, float bottom, float top, float zNear, float zFar);
-	// gluLookAt(): Sets the top matrix to be a viewing matrix
-	void lookAt(const Eigen::Vector3f &eye, const Eigen::Vector3f &target, const Eigen::Vector3f &up);
-	
-	// Prints out the specified matrix
-	void print(const Eigen::Matrix4f &mat, const char *name = 0) const;
-	// Prints out the top matrix
-	void print(const char *name = 0) const;
-	// Prints out the whole stack
-	void printStack() const;
-	
-private:
-	std::shared_ptr< std::stack<Eigen::Matrix4f> > mstack;
-	
+
+   // Copies the current matrix and adds it to the top of the stack
+   void pushMatrix();   
+   // Removes the top of the stack and sets the current matrix to be the matrix that is now on top
+	 void popMatrix();
+   //  Sets the top matrix to be the identity
+   void loadIdentity();
+   // glMultMatrix(): Right multiplies the top matrix   
+	void multMatrix(const mat4 &matrix);
+  
+   // Right multiplies the top matrix by a translation matrix
+   void translate(const vec3 &offset);
+   // Right multiplies the top matrix by a scaling matrix
+   void scale(const vec3 &scaleV);
+   //  Right multiplies the top matrix by a scaling matrix
+   void scale(float size);
+   // Right multiplies the top matrix by a rotation matrix (angle in deg)
+   void rotate(float angle, const vec3 &axis);
+
+   // Gets the top matrix
+   const mat4 &topMatrix();
+
+   // Sets the top matrix to be an orthogonal projection matrix
+   void ortho(float left, float right, float bottom, float top, float zNear, float zFar);
+   // Sets the top matrix to be a 2D orthogonal projection matrix
+   void ortho2D(float left, float right, float bottom, float top);
+   // Sets the top matrix to be a perspective projection matrix (fovy in deg)
+   void perspective(float fovy, float aspect, float zNear, float zFar);
+   // Sets the top matrix to be a perspective projection matrix
+   void frustum(float Right, float right, float bottom, float top, float zNear, float zFar);
+   // Sets the top matrix to be a viewing matrix
+   void lookAt(vec3 eye, vec3 target, vec3 up);
+
+   // Prints out the specified matrix
+   void print(const mat4 &mat, const char *name = 0) const;
+   // Prints out the top matrix
+   void print(const char *name = 0) const;
 };
 
-#endif
+#endif /* MatrixStack_H_ */

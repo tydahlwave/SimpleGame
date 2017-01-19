@@ -22,6 +22,14 @@ if(NOT EIGEN3_INCLUDE_DIR)
 endif()
 include_directories(${EIGEN3_INCLUDE_DIR})
 
+# Get the GLM environment variable. Since GLM is a header-only library, we
+# just need to add it to the include directory.
+set(GLM_INCLUDE_DIR "$ENV{GLM_INCLUDE_DIR}")
+if(NOT GLM_INCLUDE_DIR)
+MESSAGE(FATAL_ERROR "Please point the environment variable GLM_INCLUDE_DIR to the include directory of your GLM installation.")
+endif()
+include_directories(${GLM_INCLUDE_DIR})
+
 # Get the GLFW environment variable. There should be a CMakeLists.txt in the 
 # specified directory.
 set(GLFW_DIR "$ENV{GLFW_DIR}")
