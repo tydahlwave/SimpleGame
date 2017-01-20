@@ -21,7 +21,7 @@
 #include "UserInputComponent.h"
 #include "../Camera.h"
 
-static const int MAX_ENTITIES = 1;
+static const int MAX_ENTITIES = 10;
 
 enum Component { // Max of 32 components
     COMP_POSITION       = 0,

@@ -11,8 +11,8 @@ using namespace std;
 
 World* Window::world;
 
-float alpha = 0;
-float beta = -M_PI/2;
+float alpha1 = 0;
+float beta1 = -M_PI/2;
 
 static void error_callback(int error, const char *description) {
     cerr << description << endl;
@@ -40,8 +40,8 @@ void Window::mouse_move_callback(GLFWwindow *window, double posX, double posY) {
     glfwGetWindowSize(window, &width, &height);
 
     // Compute new alpha and beta for the camera lookat point
-    double alpha2 = alpha + ((posY + height/2.0) / height * M_PI*16/18) - M_PI*8/18;
-    double beta2 = beta + ((posX + width/2.0) / width * M_PI*2) - M_PI;
+    double alpha2 = alpha1 + ((posY + height/2.0) / height * M_PI*16/18) - M_PI*8/18;
+    double beta2 = beta1 + ((posX + width/2.0) / width * M_PI*2) - M_PI;
 
     // Constrain the view (up and down constrained to (-80,80) degrees)
     if (alpha2 > M_PI*8/18) alpha2 = M_PI*8/18;

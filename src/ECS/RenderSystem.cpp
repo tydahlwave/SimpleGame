@@ -48,7 +48,7 @@ void RenderSystem::render(World &world, ShaderSystem &shaderSystem, Window &wind
 
 void applyPerspectiveMatrix(Window &window, const shared_ptr<Program> prog) {
     auto P = make_shared<MatrixStack>();
-    float aspect = window.getWidth()/window.getHeight();
+    float aspect = window.getWidth()/(float)window.getHeight();
     P->perspective(45.0f, aspect, 0.01f, 100.0f);
     glUniformMatrix4fv(prog->getUniform("P"), 1, GL_FALSE, value_ptr(P->topMatrix()));
 }
@@ -65,11 +65,6 @@ void applyTransformMatrix(MatrixStack &transforms, const shared_ptr<Program> pro
 
 void RenderSystem::drawShape(World &world, int entity, Window &window, const shared_ptr<Shape> shape, const shared_ptr<Program> shader) {
     shader->bind();
-    
-//    Camera camera;
-//    Camera::pos = vec3(0, 0, 0);
-//    Camera::lookAt = vec3(0, 0, 1);
-//    Camera::up = vec3(0, 1, 0);
     
     glUniform3f(shader->getUniform("matAmbientColor"), 0.3294, 0.2235, 0.02745);
     glUniform3f(shader->getUniform("matDiffuseColor"), 0.7804, 0.5686, 0.11373);

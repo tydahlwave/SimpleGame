@@ -30,12 +30,14 @@ public:
     RenderSystem() {}
     virtual ~RenderSystem() {}
     
+    map<string, shared_ptr<Shape>> shapes;
+    
     void loadShape(string filename);
     void render(World &world, ShaderSystem &shaderSystem, Window &window);
 private:
     void drawShape(World &world, int entity, Window &window, const shared_ptr<Shape> shape, const shared_ptr<Program> shader);
     
-    map<string, shared_ptr<Shape>> shapes;
+//    map<string, shared_ptr<Shape>> shapes;
 };
 
 #endif /* RenderSystem_h */

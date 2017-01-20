@@ -8,8 +8,12 @@
 //#include "MatrixStack.h"
 //#include "Shape.h"
 //
+//// value_ptr for glm
+//#include <glm/gtc/type_ptr.hpp>
+//#include <glm/gtc/matrix_transform.hpp>
+//
 //using namespace std;
-//using namespace Eigen;
+//using namespace glm;
 //
 //#define LEFT 0
 //#define RIGHT 1
@@ -18,19 +22,19 @@
 //#define NUM_MODELS 10
 //
 //typedef struct {
-//   Vector3f pos;
-//   Vector3f color;
+//   vec3 pos;
+//   vec3 color;
 //} PointLight;
 //
 //typedef struct {
-//   Vector3f dir;
-//   Vector3f color;
+//   vec3 dir;
+//   vec3 color;
 //} DirectionalLight;
 //
 //typedef struct {
-//   Vector3f pos;
-//   Vector3f lookAt;
-//   Vector3f up;
+//   vec3 pos;
+//   vec3 lookAt;
+//   vec3 up;
 //   float velW;
 //   float velU;
 //} Camera;
@@ -308,7 +312,7 @@
 //   // Bind the rectangle GLSL program
 //   groundProg->bind();
 //   auto V = make_shared<MatrixStack>();
-//   glUniformMatrix4fv(groundProg->getUniform("P"), 1, GL_FALSE, P->topMatrix().data());
+//   glUniformMatrix4fv(groundProg->getUniform("P"), 1, GL_FALSE, value_ptr(P->topMatrix()));
 //   glUniform3f(groundProg->getUniform("lightPos"), light.pos[0] + lightPosOffset, light.pos[1], light.pos[2]);
 //   glUniform3f(groundProg->getUniform("lightColor"), light.color[0], light.color[1], light.color[2]);
 //   glUniform3f(groundProg->getUniform("sunDir"), sun.dir[0], sun.dir[1], sun.dir[2]);
@@ -316,13 +320,13 @@
 //   SetMaterial(4, groundProg);
 //    
 //   M->pushMatrix();
-//      M->translate(Vector3f(0, -1, 0));
-//      M->scale(Vector3f(1000, 1000, 1000));
+//      M->translate(vec3(0, -1, 0));
+//      M->scale(vec3(1000, 1000, 1000));
 //
-//      glUniformMatrix4fv(groundProg->getUniform("M"), 1, GL_FALSE, M->topMatrix().data());
+//      glUniformMatrix4fv(groundProg->getUniform("M"), 1, GL_FALSE, value_ptr(M->topMatrix()));
 //      V->pushMatrix();
 //         V->lookAt(camera.pos, camera.lookAt, camera.up);
-//         glUniformMatrix4fv(groundProg->getUniform("V"), 1, GL_FALSE, V->topMatrix().data());
+//         glUniformMatrix4fv(groundProg->getUniform("V"), 1, GL_FALSE, value_ptr(V->topMatrix()));
 //         
 //         glBindVertexArray(VertexArrayID);
 //         glEnableVertexAttribArray(groundProg->getAttribute("vertPos"));
@@ -345,7 +349,7 @@
 //   auto V = make_shared<MatrixStack>();
 //   V->pushMatrix();
 //      V->lookAt(camera.pos, camera.lookAt, camera.up);
-//      glUniformMatrix4fv(prog->getUniform("V"), 1, GL_FALSE, V->topMatrix().data());
+//      glUniformMatrix4fv(prog->getUniform("V"), 1, GL_FALSE, value_ptr(V->topMatrix()));
 //      shape->draw(prog);
 //   V->popMatrix();
 //}
@@ -353,7 +357,7 @@
 //void drawShape(const shared_ptr<Shape> shape, const shared_ptr<Program> prog, const shared_ptr<MatrixStack> P, const shared_ptr<MatrixStack> M, 
 //   float xPos, float yPos, float zPos, int material) {
 //   prog->bind();
-//   glUniformMatrix4fv(prog->getUniform("P"), 1, GL_FALSE, P->topMatrix().data());
+//   glUniformMatrix4fv(prog->getUniform("P"), 1, GL_FALSE, value_ptr(P->topMatrix()));
 //   glUniform3f(prog->getUniform("lightPos"), light.pos[0] + lightPosOffset, light.pos[1], light.pos[2]);
 //   glUniform3f(prog->getUniform("lightColor"), light.color[0], light.color[1], light.color[2]);
 //   glUniform3f(prog->getUniform("sunDir"), sun.dir[0], sun.dir[1], sun.dir[2]);
@@ -362,10 +366,10 @@
 //
 //   // Draw mesh 
 //   M->pushMatrix();
-//      M->translate(Vector3f(xPos, yPos, zPos));
-//      M->rotate(rand(), Vector3f(0, 1, 0));
+//      M->translate(vec3(xPos, yPos, zPos));
+//      M->rotate(rand(), vec3(0, 1, 0));
 //
-//      glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, M->topMatrix().data());
+//      glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, value_ptr(M->topMatrix()));
 //      drawShapeWithShaderProgram(shape, prog);
 //   M->popMatrix();
 //   prog->unbind();
@@ -419,7 +423,7 @@
 //void renderLSystemTree(string treeString, int randomRotation, const shared_ptr<Program> prog, const shared_ptr<MatrixStack> P, const shared_ptr<MatrixStack> M,
 //   float xPos, float yPos, float zPos, int material) {
 //   prog->bind();
-//   glUniformMatrix4fv(prog->getUniform("P"), 1, GL_FALSE, P->topMatrix().data());
+//   glUniformMatrix4fv(prog->getUniform("P"), 1, GL_FALSE, value_ptr(P->topMatrix()));
 //   glUniform3f(prog->getUniform("lightPos"), light.pos[0] + lightPosOffset, light.pos[1], light.pos[2]);
 //   glUniform3f(prog->getUniform("lightColor"), light.color[0], light.color[1], light.color[2]);
 //   glUniform3f(prog->getUniform("sunDir"), sun.dir[0], sun.dir[1], sun.dir[2]);
@@ -432,45 +436,45 @@
 //   int leafColor = rand() % 8;
 //
 //   M->pushMatrix();
-//      M->translate(Vector3f(xPos, yPos, zPos));
-//      M->rotate(randomRotation, Vector3f(0, 1, 0));
+//      M->translate(vec3(xPos, yPos, zPos));
+//      M->rotate(randomRotation, vec3(0, 1, 0));
 //   for (int i = 0; i < treeString.length(); i++) {
 //      char c = treeString[i];
 //      switch (c) {
 //         case '0':
-//            M->translate(Vector3f(0.0, (sizeY*newScale)/2, 0.0));
+//            M->translate(vec3(0.0, (sizeY*newScale)/2, 0.0));
 //            // Draw leaf
 //            M->pushMatrix();
 //               SetMaterial(leafColor, prog);
-//               M->translate(Vector3f(0.0, (sizeY*newScale)/2, 0.0));
-//               M->scale(Vector3f(0.4*newScale, 0.4*newScale, 0.4*newScale));
-//               glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, M->topMatrix().data());
+//               M->translate(vec3(0.0, (sizeY*newScale)/2, 0.0));
+//               M->scale(vec3(0.4*newScale, 0.4*newScale, 0.4*newScale));
+//               glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, value_ptr(M->topMatrix()));
 //               drawShapeWithShaderProgram(sphere, prog);
 //            M->popMatrix();
 //            // Draw branch
 //            M->pushMatrix();
 //               SetMaterial(material, prog);
-//               M->scale(Vector3f(0.2*newScale, 0.5*newScale, 0.2*newScale));
-//               glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, M->topMatrix().data());
+//               M->scale(vec3(0.2*newScale, 0.5*newScale, 0.2*newScale));
+//               glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, value_ptr(M->topMatrix()));
 //               drawShapeWithShaderProgram(cube, prog);
 //            M->popMatrix();
 //            break;
 //         case '1':
-//            M->translate(Vector3f(0.0, (sizeY*newScale)/2, 0.0));
+//            M->translate(vec3(0.0, (sizeY*newScale)/2, 0.0));
 //            // Draw trunk
 //            M->pushMatrix();
 //               SetMaterial(material, prog);
-//               M->scale(Vector3f(0.2*newScale, 0.5*newScale, 0.2*newScale));
-//               glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, M->topMatrix().data());
+//               M->scale(vec3(0.2*newScale, 0.5*newScale, 0.2*newScale));
+//               glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, value_ptr(M->topMatrix()));
 //               drawShapeWithShaderProgram(cube, prog);
 //            M->popMatrix();
 //            break;
 //         case '[':
 //            newScale *= scale;
-//            M->translate(Vector3f(0.0, (sizeY*newScale/scale)/2, 0.0));
+//            M->translate(vec3(0.0, (sizeY*newScale/scale)/2, 0.0));
 //            M->pushMatrix();
-//            M->translate(Vector3f(-1.0/6*(sizeX*newScale/scale), -1.0/6*(sizeX*newScale/scale), 0));
-//            M->rotate(rand() % 40 + 5, Vector3f(0.0, 0.0, 1.0));
+//            M->translate(vec3(-1.0/6*(sizeX*newScale/scale), -1.0/6*(sizeX*newScale/scale), 0));
+//            M->rotate(rand() % 40 + 5, vec3(0.0, 0.0, 1.0));
 //            // M->scale(Vector3f(0.8, 0.8, 0.8));
 //            break;
 //         case ']':
@@ -483,8 +487,8 @@
 //               }
 //            }
 //            M->popMatrix();
-//            M->translate(Vector3f(1.0/6*(sizeX*newScale/scale), -1.0/6*(sizeX*newScale/scale), 0));
-//            M->rotate(-(rand() % 40) - 5, Vector3f(0.0, 0.0, 1.0));
+//            M->translate(vec3(1.0/6*(sizeX*newScale/scale), -1.0/6*(sizeX*newScale/scale), 0));
+//            M->rotate(-(rand() % 40) - 5, vec3(0.0, 0.0, 1.0));
 //            // M->scale(Vector3f(0.8, 0.8, 0.8));
 //            break;
 //      }
@@ -549,9 +553,9 @@
 //}
 //
 //static void updateCamera() {
-//   Vector3f gaze = camera.lookAt - camera.pos;
-//   Vector3f w = -gaze.normalized();
-//   Vector3f u = camera.up.cross(w).normalized();
+//   vec3 gaze = camera.lookAt - camera.pos;
+//   vec3 w = normalize(-gaze);
+//   vec3 u = normalize(cross(camera.up, w));
 //   if (abs(camera.velW) > CAMERA_STOPPED_THRESHOLD) {
 //      camera.pos += camera.velW * w;
 //      camera.lookAt += camera.velW * w;
@@ -564,18 +568,18 @@
 //
 //void initValues() {
 //   // Initialize light sources
-//   light.pos = Vector3f(0, 0, 0);
-//   light.color = Vector3f(1, 1, 1);
-//   sun.dir = Vector3f(5, 5, 5).normalized();
-//   sun.color = Vector3f(253/255.0, 184/255.0, 19/255.0);
+//   light.pos = vec3(0, 0, 0);
+//   light.color = vec3(1, 1, 1);
+//   sun.dir = normalize(vec3(5, 5, 5));
+//   sun.color = vec3(253/255.0, 184/255.0, 19/255.0);
 //
 //   // Initialize camera
-//   camera.pos = Vector3f(0, 0, 0);
-//   camera.lookAt = Vector3f(0, 0, -1);
-//   camera.up = Vector3f(0, 1, 0);
+//   camera.pos = vec3(0, 0, 0);
+//   camera.lookAt = vec3(0, 0, -1);
+//   camera.up = vec3(0, 1, 0);
 //}
 //
-//int main2(int argc, char **argv)
+//int main(int argc, char **argv)
 //{
 //	if (argc < 2) {
 //      cout << "Using ../resources/ as the default resources directory." << endl;

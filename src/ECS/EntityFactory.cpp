@@ -30,6 +30,7 @@ int EntityFactory::createSheep(World &world) {
     world.position[sheep].value = vec3(0, 0, 0);
     world.velocity[sheep].value = vec3(0, 0, 0);
     world.transform[sheep].transforms.reset();
+    world.transform[sheep].transforms.translate(vec3(0, 0, -5));
     world.entityType[sheep].type = "bunny";
     world.shaderType[sheep].type = "phong";
     
@@ -38,11 +39,11 @@ int EntityFactory::createSheep(World &world) {
 
 int EntityFactory::createGround(World &world) {
     int ground = world.createEntity();
-    world.entity[ground] = (COMP_POSITION | COMP_VELOCITY | COMP_TRANSFORM | COMP_ENTITY_TYPE | COMP_SHADER_TYPE);
+    world.entity[ground] = (COMP_POSITION | COMP_TRANSFORM | COMP_ENTITY_TYPE | COMP_SHADER_TYPE);
     
     world.position[ground].value = vec3(0, -1, 0);
-    world.velocity[ground].value = vec3(0, 0, 0);
     world.transform[ground].transforms.reset();
+    world.transform[ground].transforms.translate(vec3(0, -1, 0));
     world.transform[ground].transforms.scale(50);
     world.entityType[ground].type = "rect";
     world.shaderType[ground].type = "ground";
