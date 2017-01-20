@@ -9,6 +9,9 @@
 
 using namespace std;
 
+#define CAMERA_SPEED 0.2
+#define CAMERA_STOPPED_THRESHOLD 0.1
+
 World* Window::world;
 
 float alpha1 = 0;
@@ -18,10 +21,44 @@ static void error_callback(int error, const char *description) {
     cerr << description << endl;
 }
 
-static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
+void Window::key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
     if (action == GLFW_PRESS) {
         if (key == GLFW_KEY_ESCAPE) {
             glfwSetWindowShouldClose(window, GL_TRUE);
+        } else if (key == GLFW_KEY_W) {
+            world->camera.vel[2] = -CAMERA_SPEED;
+        } else if (key == GLFW_KEY_S) {
+            world->camera.vel[2] = CAMERA_SPEED;
+        } else if (key == GLFW_KEY_A) {
+            world->camera.vel[0] = -CAMERA_SPEED;
+        } else if (key == GLFW_KEY_D) {
+            world->camera.vel[0] = CAMERA_SPEED;
+        }
+    } else if (action == GLFW_RELEASE) {
+        if (key == GLFW_KEY_W) {
+            if (world->camera.vel[2] < -CAMERA_STOPPED_THRESHOLD) {
+                world->camera.vel[2] = 0;
+            } else {
+                world->camera.vel[2] = CAMERA_SPEED;
+            }
+        } else if (key == GLFW_KEY_S) {
+            if (world->camera.vel[2] > CAMERA_STOPPED_THRESHOLD) {
+                world->camera.vel[2] = 0;
+            } else {
+                world->camera.vel[2] = -CAMERA_SPEED;
+            }
+        } else if (key == GLFW_KEY_A) {
+            if (world->camera.vel[0] < -CAMERA_STOPPED_THRESHOLD) {
+                world->camera.vel[0] = 0;
+            } else {
+                world->camera.vel[0] = CAMERA_SPEED;
+            }
+        } else if (key == GLFW_KEY_D) {
+            if (world->camera.vel[0] > CAMERA_STOPPED_THRESHOLD) {
+                world->camera.vel[0] = 0;
+            } else {
+                world->camera.vel[0] = -CAMERA_SPEED;
+            }
         }
     }
 }
@@ -55,7 +92,7 @@ void Window::mouse_move_callback(GLFWwindow *window, double posX, double posY) {
 }
 
 static void resize_callback(GLFWwindow *window, int width, int height) {
-
+    glViewport(0, 0, width, height);
 }
 
 int Window::initialize() {
@@ -96,7 +133,7 @@ int Window::initialize() {
     // Set vsync.
     glfwSwapInterval(1);
     // Set keyboard callback.
-    glfwSetKeyCallback(window, key_callback);
+    glfwSetKeyCallback(window, Window::key_callback);
     //set the mouse call back
     // glfwSetMouseButtonCallback(window, mouse_callback);
     // Set the mouse move call back

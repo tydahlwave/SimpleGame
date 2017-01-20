@@ -26,6 +26,8 @@
 using namespace std;
 using namespace glm;
 
+#define CAMERA_STOPPED_THRESHOLD 0.1
+
 string RESOURCE_DIR = "../../resources/"; // Where the resources are loaded from
 
 static void init(RenderSystem &renderer, ShaderSystem &shader)
@@ -89,6 +91,20 @@ void doSomething(World &world, Window &window, RenderSystem &renderSystem, Shade
     prog->unbind();
 }
 
+static void updateCamera(World &world) {
+   vec3 gaze = world.camera.lookAt - world.camera.pos;
+   vec3 w = normalize(-gaze);
+   vec3 u = normalize(cross(world.camera.up, w));
+   if (abs(world.camera.vel[2]) > CAMERA_STOPPED_THRESHOLD) {
+      world.camera.pos += world.camera.vel[2] * w;
+      world.camera.lookAt += world.camera.vel[2] * w;
+   }
+   if (abs(world.camera.vel[0]) > CAMERA_STOPPED_THRESHOLD) {
+      world.camera.pos += world.camera.vel[0] * u;
+      world.camera.lookAt += world.camera.vel[0] * u;
+   }
+}
+
 int main(int argc, char **argv) {
     RenderSystem renderSystem;
     ShaderSystem shaderSystem;
@@ -113,7 +129,7 @@ int main(int argc, char **argv) {
         // Render scene.
         renderSystem.render(world, shaderSystem, window);
         // Update camera;
-//        updateCamera();
+        updateCamera(world);
         
         // Swap front and back buffers.
         window.swapBuffers();

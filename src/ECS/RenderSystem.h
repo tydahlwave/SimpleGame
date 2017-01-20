@@ -14,7 +14,6 @@
 #include <string>
 #include <vector>
 
-#include "Entity.h"
 #include "../Shape.h"
 #include "../Program.h"
 #include "../Window.h"

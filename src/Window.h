@@ -22,6 +22,7 @@ public:
     bool shouldClose();
     void swapBuffers();
     void pollEvents();
+    static void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
     static void mouse_move_callback(GLFWwindow *window, double posX, double posY);
 private:
     GLFWwindow *window; // Main application window
