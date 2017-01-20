@@ -9,6 +9,8 @@
 #ifndef World_h
 #define World_h
 
+#include <vector>
+
 #include "PositionComponent.h"
 #include "VelocityComponent.h"
 #include "AccelerationComponent.h"
@@ -17,6 +19,7 @@
 #include "ShaderTypeComponent.h"
 #include "TransformComponent.h"
 #include "UserInputComponent.h"
+#include "../Camera.h"
 
 static const int MAX_ENTITIES = 1;
 
@@ -33,21 +36,27 @@ enum Component { // Max of 32 components
 
 class World {
 public:
-    static int entity[MAX_ENTITIES];
-    static PositionComponent position[MAX_ENTITIES];
-    static VelocityComponent velocity[MAX_ENTITIES];
-    static AccelerationComponent acceleration[MAX_ENTITIES];
-    static HealthComponent health[MAX_ENTITIES];
-    static EntityTypeComponent entityType[MAX_ENTITIES];
-    static ShaderTypeComponent shaderType[MAX_ENTITIES];
-    static TransformComponent transform[MAX_ENTITIES];
-    static UserInputComponent userInput[MAX_ENTITIES];
+    World();
+    virtual ~World() {}
     
-    static int createEntity();
-    static void removeEntity(unsigned int id);
-    static void removeAllEntities();
+    int entity[MAX_ENTITIES];
+    PositionComponent position[MAX_ENTITIES];
+    VelocityComponent velocity[MAX_ENTITIES];
+    AccelerationComponent acceleration[MAX_ENTITIES];
+    HealthComponent health[MAX_ENTITIES];
+    EntityTypeComponent entityType[MAX_ENTITIES];
+    ShaderTypeComponent shaderType[MAX_ENTITIES];
+    TransformComponent transform[MAX_ENTITIES];
+    UserInputComponent userInput[MAX_ENTITIES];
+    
+    Camera camera;
+    
+    int createEntity();
+    void removeEntity(unsigned int id);
+    void removeAllEntities();
 private:
-    void test();
 };
+
+//Camera camera();
 
 #endif /* World_h */

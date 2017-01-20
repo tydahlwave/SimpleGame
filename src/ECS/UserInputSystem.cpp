@@ -9,13 +9,12 @@
 #include <stdio.h>
 
 #include "UserInputSystem.h"
-#include "World.h"
 
 static const int USER_INPUT_MASK = COMP_USER_INPUT;
 
-void UserInputSystem::update() {
+void UserInputSystem::update(World &world) {
     for (int entity = 0; entity < MAX_ENTITIES; entity++) {
-        int entityMask = World::entity[entity];
+        int entityMask = world.entity[entity];
         if ((entityMask & USER_INPUT_MASK) == USER_INPUT_MASK) {
             
         }

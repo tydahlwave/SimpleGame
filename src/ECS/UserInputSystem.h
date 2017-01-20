@@ -9,12 +9,14 @@
 #ifndef UserInputSystem_h
 #define UserInputSystem_h
 
+#include "World.h"
+
 class UserInputSystem {
 public:
     UserInputSystem() {}
     virtual ~UserInputSystem() {}
     
-    void update();
+    void update(World &world);
 };
 
 #endif /* UserInputSystem_h */

@@ -6,22 +6,26 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include "ECS/World.h"
+
 class Window {
 public:
-   Window() {}
-   virtual ~Window() {}
+    Window(World *w) { Window::world = w; }
+    virtual ~Window() {}
 
-   int initialize();
-   void terminate();
+    int initialize();
+    void terminate();
 
-   int getHeight();
-   int getWidth();
+    int getHeight();
+    int getWidth();
 
-   bool shouldClose();
-   void swapBuffers();
-   void pollEvents();
+    bool shouldClose();
+    void swapBuffers();
+    void pollEvents();
+    static void mouse_move_callback(GLFWwindow *window, double posX, double posY);
 private:
-   GLFWwindow *window; // Main application window
+    GLFWwindow *window; // Main application window
+    static World *world;
 };
 
 #endif

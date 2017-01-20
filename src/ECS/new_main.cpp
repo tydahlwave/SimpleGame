@@ -23,27 +23,6 @@ using namespace std;
 
 string RESOURCE_DIR = "../../resources/"; // Where the resources are loaded from
 
-GLuint VertexArrayID;
-GLuint groundBuffer;
-GLuint groundNormalsBuffer;
-static const GLfloat g_ground_buffer_data[] = {
-    -1.0, 0.0, -1.0,
-    -1.0, 0.0, 1.0,
-    1.0, 0.0, 1.0,
-    -1.0, 0.0, -1.0,
-    1.0, 0.0, 1.0,
-    1.0, 0.0, -1.0
-};
-static const GLfloat g_ground_normals_buffer_data[] = {
-    0.0, 1.0, 0.0,
-    0.0, 1.0, 0.0,
-    0.0, 1.0, 0.0,
-    0.0, 1.0, 0.0,
-    0.0, 1.0, 0.0,
-    0.0, 1.0, 0.0
-};
-
-
 static void init(RenderSystem &renderer, ShaderSystem &shader)
 {
     GLSL::checkVersion();
@@ -54,43 +33,28 @@ static void init(RenderSystem &renderer, ShaderSystem &shader)
     glEnable(GL_DEPTH_TEST);
     
     renderer.loadShape("bunny");
+    renderer.loadShape("rect");
     shader.loadPhong();
     shader.loadGround();
 }
 
-static void initGeom() {
-    // Initialize the vertex array object
-    glGenVertexArrays(1, &VertexArrayID);
-    glBindVertexArray(VertexArrayID);
-    
-    // Send the ground position array to the GPU
-    glGenBuffers(1, &groundBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, groundBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(g_ground_buffer_data), g_ground_buffer_data, GL_DYNAMIC_DRAW);
-    
-    // Send the ground normal array to the GPU
-    glGenBuffers(1, &groundNormalsBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, groundNormalsBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(g_ground_normals_buffer_data), g_ground_normals_buffer_data, GL_DYNAMIC_DRAW);
-}
-
-void initGameObjects() {
-//    int sheep = EntityFactory::createSheep();
+void initGameObjects(World &world) {
+    EntityFactory::createGround(world);
 }
 
 int main(int argc, char **argv) {
-    Window window;
     RenderSystem renderSystem;
     ShaderSystem shaderSystem;
+    World world;
+    Window window(&world);
 //    Graphics graphics = new Graphics();
     
     // Initialization
     window.initialize();
-    initGameObjects();
+    initGameObjects(world);
     
     // Initialize scene. Note geometry initialized in init now
     init(renderSystem, shaderSystem);
-    initGeom();
     
     // Game loop
     while (!window.shouldClose()) {
@@ -100,7 +64,7 @@ int main(int argc, char **argv) {
 //        }
         
         // Render scene.
-        renderSystem.render(shaderSystem, window);
+        renderSystem.render(world, shaderSystem, window);
         // Update camera;
 //        updateCamera();
         

@@ -1,8 +1,18 @@
 #include "Window.h"
 
 #include <iostream>
+#include <stdio.h>
+#include <cmath>
+#include <iostream>
+
+#include "ECS/World.h"
 
 using namespace std;
+
+World* Window::world;
+
+float alpha = 0;
+float beta = -M_PI/2;
 
 static void error_callback(int error, const char *description) {
     cerr << description << endl;
@@ -24,8 +34,24 @@ static void key_callback(GLFWwindow *window, int key, int scancode, int action, 
 // 	}
 // }
 
-static void mouse_move_callback(GLFWwindow *window, double posX, double posY) {
+void Window::mouse_move_callback(GLFWwindow *window, double posX, double posY) {
+    // Get current window size.
+    int width, height;
+    glfwGetWindowSize(window, &width, &height);
 
+    // Compute new alpha and beta for the camera lookat point
+    double alpha2 = alpha + ((posY + height/2.0) / height * M_PI*16/18) - M_PI*8/18;
+    double beta2 = beta + ((posX + width/2.0) / width * M_PI*2) - M_PI;
+
+    // Constrain the view (up and down constrained to (-80,80) degrees)
+    if (alpha2 > M_PI*8/18) alpha2 = M_PI*8/18;
+    if (alpha2 < -M_PI*8/18) alpha2 = -M_PI*8/18;
+
+    // Compute camera lookat point
+    world->camera.lookAt[0] = world->camera.pos[0] + cos(alpha2) * cos(beta2);
+    world->camera.lookAt[1] = world->camera.pos[1] + -sin(alpha2);
+    world->camera.lookAt[2] = world->camera.pos[2] + cos(alpha2) * cos(M_PI/2 - beta2);
+    cout << world->camera.lookAt.x << ", " << world->camera.lookAt.y << ", " << world->camera.lookAt.z << endl;
 }
 
 static void resize_callback(GLFWwindow *window, int width, int height) {
@@ -74,7 +100,7 @@ int Window::initialize() {
     //set the mouse call back
     // glfwSetMouseButtonCallback(window, mouse_callback);
     // Set the mouse move call back
-    glfwSetCursorPosCallback(window, mouse_move_callback);
+    glfwSetCursorPosCallback(window, Window::mouse_move_callback);
     //set the window resize call back
     glfwSetFramebufferSizeCallback(window, resize_callback);
     

@@ -9,30 +9,43 @@
 #include <stdio.h>
 
 #include "EntityFactory.h"
-#include "World.h"
 
-int EntityFactory::createPlayer() {
-    int player = World::createEntity();
-    World::entity[player] = (COMP_POSITION | COMP_VELOCITY | COMP_TRANSFORM | COMP_ENTITY_TYPE | COMP_SHADER_TYPE);
+int EntityFactory::createPlayer(World &world) {
+    int player = world.createEntity();
+    world.entity[player] = (COMP_POSITION | COMP_VELOCITY | COMP_TRANSFORM | COMP_ENTITY_TYPE | COMP_SHADER_TYPE);
     
-    World::position[player].value = vec3(0, 0, 0);
-    World::velocity[player].value = vec3(0, 0, 0);
-    World::transform[player].transforms.reset();
-    World::entityType[player].type = "bunny";
-    World::shaderType[player].type = "phong";
+    world.position[player].value = vec3(0, 0, 0);
+    world.velocity[player].value = vec3(0, 0, 0);
+    world.transform[player].transforms.reset();
+    world.entityType[player].type = "bunny";
+    world.shaderType[player].type = "phong";
     
     return player;
 }
 
-int EntityFactory::createSheep() {
-    int sheep = World::createEntity();
-    World::entity[sheep] = (COMP_POSITION | COMP_VELOCITY | COMP_TRANSFORM | COMP_ENTITY_TYPE | COMP_SHADER_TYPE);
+int EntityFactory::createSheep(World &world) {
+    int sheep = world.createEntity();
+    world.entity[sheep] = (COMP_POSITION | COMP_VELOCITY | COMP_TRANSFORM | COMP_ENTITY_TYPE | COMP_SHADER_TYPE);
     
-    World::position[sheep].value = vec3(0, 0, 0);
-    World::velocity[sheep].value = vec3(0, 0, 0);
-    World::transform[sheep].transforms.reset();
-    World::entityType[sheep].type = "bunny";
-    World::shaderType[sheep].type = "phong";
+    world.position[sheep].value = vec3(0, 0, 0);
+    world.velocity[sheep].value = vec3(0, 0, 0);
+    world.transform[sheep].transforms.reset();
+    world.entityType[sheep].type = "bunny";
+    world.shaderType[sheep].type = "phong";
     
     return sheep;
+}
+
+int EntityFactory::createGround(World &world) {
+    int ground = world.createEntity();
+    world.entity[ground] = (COMP_POSITION | COMP_VELOCITY | COMP_TRANSFORM | COMP_ENTITY_TYPE | COMP_SHADER_TYPE);
+    
+    world.position[ground].value = vec3(0, -1, 0);
+    world.velocity[ground].value = vec3(0, 0, 0);
+    world.transform[ground].transforms.reset();
+    world.transform[ground].transforms.scale(50);
+    world.entityType[ground].type = "rect";
+    world.shaderType[ground].type = "ground";
+    
+    return ground;
 }

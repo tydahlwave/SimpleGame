@@ -19,8 +19,11 @@
 #include "../Program.h"
 #include "../Window.h"
 #include "ShaderSystem.h"
+#include "World.h"
+#include "glm/glm.hpp"
 
 using namespace std;
+using namespace glm;
 
 class RenderSystem {
 public:
@@ -28,9 +31,9 @@ public:
     virtual ~RenderSystem() {}
     
     void loadShape(string filename);
-    void render(ShaderSystem &shaderSystem, Window &window);
+    void render(World &world, ShaderSystem &shaderSystem, Window &window);
 private:
-    void drawShape(int entity, Window &window, const shared_ptr<Shape> shape, const shared_ptr<Program> shader);
+    void drawShape(World &world, int entity, Window &window, const shared_ptr<Shape> shape, const shared_ptr<Program> shader);
     
     map<string, shared_ptr<Shape>> shapes;
 };
