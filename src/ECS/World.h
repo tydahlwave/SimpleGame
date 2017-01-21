@@ -39,7 +39,7 @@ public:
     World();
     virtual ~World() {}
     
-	int entity[MAX_ENTITIES] = {};
+    int entity[MAX_ENTITIES] = {};
     PositionComponent position[MAX_ENTITIES] = {};
     VelocityComponent velocity[MAX_ENTITIES] = {};
     AccelerationComponent acceleration[MAX_ENTITIES] = {};

@@ -11,22 +11,22 @@
 
 #include <memory>
 
-#include "MatrixStack.h"
 #include "glm/glm.hpp"
 
-using namespace glm;
+#define CAMERA_STOPPED_THRESHOLD 0.1
 
 class Camera {
 public:
-    Camera(vec3 p, vec3 l, vec3 u, vec3 v) :pos(p), lookAt(l), up(u), vel(v) {};
+    Camera(glm::vec3 p, glm::vec3 l, glm::vec3 u, glm::vec3 v) :pos(p), lookAt(l), up(u), vel(v) {};
     virtual ~Camera() {}
     
-    vec3 pos;
-    vec3 lookAt;
-    vec3 up;
-    vec3 vel; // u, v, w
+    glm::vec3 pos;
+    glm::vec3 lookAt;
+    glm::vec3 up;
+    glm::vec3 vel; // u, v, w
     
-    shared_ptr<MatrixStack> getMatrix();
+    const glm::mat4 &getMatrix();
+    void update();
 };
 
 #endif /* Camera_h */
