@@ -19,7 +19,7 @@
 
 using namespace glm;
 
-static const string RESOURCE_DIR = "./resources/";
+static const string RESOURCE_DIR = "../../resources/";
 static const int RENDER_MASK = (COMP_POSITION | COMP_ENTITY_TYPE | COMP_SHADER_TYPE);
 
 void RenderSystem::loadShape(string filename) {

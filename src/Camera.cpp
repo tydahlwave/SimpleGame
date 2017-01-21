@@ -21,6 +21,8 @@ void Camera::update() {
     glm::vec3 gaze = lookAt - pos;
     glm::vec3 w = normalize(-gaze);
     glm::vec3 u = normalize(cross(up, w));
+    w.y = 0;
+    u.y = 0;
     if (abs(vel[2]) > CAMERA_STOPPED_THRESHOLD) {
         pos += vel[2] * w;
         lookAt += vel[2] * w;
