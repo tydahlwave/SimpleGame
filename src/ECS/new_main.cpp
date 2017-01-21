@@ -20,6 +20,7 @@
 #include "ShaderSystem.h"
 #include "EntityFactory.h"
 #include "World.h"
+#include "BunnySpawnSystem.h"
 
 // value_ptr for glm
 #include <glm/gtc/type_ptr.hpp>
@@ -28,7 +29,7 @@
 using namespace std;
 using namespace glm;
 
-string RESOURCE_DIR = "../../resources/"; // Where the resources are loaded from
+string RESOURCE_DIR = "./resources/"; // Where the resources are loaded from
 
 static void init(RenderSystem &renderer, ShaderSystem &shader)
 {
@@ -57,8 +58,12 @@ long long getCurrentTime() {
 int main(int argc, char **argv) {
     RenderSystem renderSystem;
     ShaderSystem shaderSystem;
+	BunnySpawnSystem spawner;
     World world;
     Window window(&world);
+
+	//seed rand
+	srand(time(0));
     
     // Initialization
     window.initialize();
@@ -66,17 +71,24 @@ int main(int argc, char **argv) {
     initGameObjects(world);
     
     long long oldTime = getCurrentTime();
-    
+	long long elapsedTime = oldTime;
     // Game loop
     while (!window.shouldClose()) {
         long long curTime = getCurrentTime();
         cout << "Frame time = " << curTime - oldTime << std::endl;
         int dt = curTime - oldTime;
-        
+		//spawn bunnies
+		if (curTime - elapsedTime >= 3000)
+		{
+			int bunny = spawner.spawnBunny(world);
+			elapsedTime = curTime;
+		}
         // Update objects
 //        for (GameObject* obj : gameObjects) {
 //            obj.update();
 //        }
+
+
         
         // Render scene.
         renderSystem.render(world, shaderSystem, window);

@@ -10,10 +10,13 @@
 #define BunnySpawnSystem_h
 
 #include "World.h"
+#include "EntityFactory.h"
+#include <algorithm>
 
 class BunnySpawnSystem {
 public:
     void update(World &world);
+	int spawnBunny(World &world);
 private:
     int numBunnies(World &world);
 };

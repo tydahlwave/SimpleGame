@@ -19,7 +19,7 @@
 
 using namespace glm;
 
-static const string RESOURCE_DIR = "../../resources/";
+static const string RESOURCE_DIR = "./resources/";
 static const int RENDER_MASK = (COMP_POSITION | COMP_ENTITY_TYPE | COMP_SHADER_TYPE);
 
 void RenderSystem::loadShape(string filename) {
@@ -78,6 +78,7 @@ void RenderSystem::drawShape(World &world, int entity, Window &window, const sha
     applyPerspectiveMatrix(window, shader);
     applyCameraMatrix(world, shader);
     applyTransformMatrix(world.transform[entity].transforms, shader);
+
     
     shape->draw(shader);
     
