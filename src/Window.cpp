@@ -11,6 +11,9 @@ using namespace std;
 
 #define CAMERA_SPEED 0.2
 #define CAMERA_STOPPED_THRESHOLD 0.1
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 
 World* Window::world;
 

@@ -28,7 +28,7 @@ using namespace glm;
 
 #define CAMERA_STOPPED_THRESHOLD 0.1
 
-string RESOURCE_DIR = "../../resources/"; // Where the resources are loaded from
+string RESOURCE_DIR = "./resources/"; // Where the resources are loaded from
 
 static void init(RenderSystem &renderer, ShaderSystem &shader)
 {
@@ -95,6 +95,8 @@ static void updateCamera(World &world) {
    vec3 gaze = world.camera.lookAt - world.camera.pos;
    vec3 w = normalize(-gaze);
    vec3 u = normalize(cross(world.camera.up, w));
+   w.y = 0;
+   u.y = 0;
    if (abs(world.camera.vel[2]) > CAMERA_STOPPED_THRESHOLD) {
       world.camera.pos += world.camera.vel[2] * w;
       world.camera.lookAt += world.camera.vel[2] * w;

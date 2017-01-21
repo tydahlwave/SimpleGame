@@ -39,15 +39,15 @@ public:
     World();
     virtual ~World() {}
     
-    int entity[MAX_ENTITIES];
-    PositionComponent position[MAX_ENTITIES];
-    VelocityComponent velocity[MAX_ENTITIES];
-    AccelerationComponent acceleration[MAX_ENTITIES];
-    HealthComponent health[MAX_ENTITIES];
-    EntityTypeComponent entityType[MAX_ENTITIES];
-    ShaderTypeComponent shaderType[MAX_ENTITIES];
-    TransformComponent transform[MAX_ENTITIES];
-    UserInputComponent userInput[MAX_ENTITIES];
+	int entity[MAX_ENTITIES] = {};
+    PositionComponent position[MAX_ENTITIES] = {};
+    VelocityComponent velocity[MAX_ENTITIES] = {};
+    AccelerationComponent acceleration[MAX_ENTITIES] = {};
+    HealthComponent health[MAX_ENTITIES] = {};
+    EntityTypeComponent entityType[MAX_ENTITIES] = {};
+    ShaderTypeComponent shaderType[MAX_ENTITIES] = {};
+    TransformComponent transform[MAX_ENTITIES] = {};
+    UserInputComponent userInput[MAX_ENTITIES] = {};
     
     Camera camera;
     

@@ -161,11 +161,50 @@ void Shape::resize() {
 	}
 }
 
+void Shape::computeBoundingBox() {
+	float minX, minY, minZ;
+	float maxX, maxY, maxZ;
+
+	minX = minY = minZ = 1.1754E+38F;
+	maxX = maxY = maxZ = -1.1754E+38F;
+
+
+	//Go through all vertices to determine min and max of each dimension
+	for (size_t v = 0; v < posBuf.size() / 3; v++) {
+		if (posBuf[3 * v + 0] < minX) minX = posBuf[3 * v + 0];
+		if (posBuf[3 * v + 0] > maxX) maxX = posBuf[3 * v + 0];
+
+		if (posBuf[3 * v + 1] < minY) minY = posBuf[3 * v + 1];
+		if (posBuf[3 * v + 1] > maxY) maxY = posBuf[3 * v + 1];
+
+		if (posBuf[3 * v + 2] < minZ) minZ = posBuf[3 * v + 2];
+		if (posBuf[3 * v + 2] > maxZ) maxZ = posBuf[3 * v + 2];
+	}
+
+	boundingBox.mins.x = minX;
+	boundingBox.mins.y = minY;
+	boundingBox.mins.z = minZ;
+	boundingBox.maxes.x = minX;
+	boundingBox.maxes.y = minY;
+	boundingBox.maxes.z = minZ;
+
+	/*cout << boundingBox.mins.x;
+	cout << boundingBox.mins.y;
+	cout << boundingBox.mins.z;
+	cout << boundingBox.maxes.x;
+	cout << boundingBox.maxes.y;
+	cout << boundingBox.maxes.z;*/
+
+}
+
 void Shape::init()
 {
    // Initialize the vertex array object
    glGenVertexArrays(1, &vaoID);
    glBindVertexArray(vaoID);
+
+   //ComputeBoundingBox
+   computeBoundingBox();
 
 	// Send the position array to the GPU
 	glGenBuffers(1, &posBufID);

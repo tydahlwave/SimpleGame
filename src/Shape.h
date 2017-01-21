@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include "BoundingBoxComponent.h"
 
 class Program;
 
@@ -17,6 +18,8 @@ public:
 	void init();
 	void resize();
 	void draw(const std::shared_ptr<Program> prog) const;
+	BoundingBoxComponent boundingBox;
+	void computeBoundingBox();
 	
 private:
 	void computeNormals();
