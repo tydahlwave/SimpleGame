@@ -13,7 +13,18 @@
 
 class TransformComponent {
 public:
-    MatrixStack transforms;
+    vec3 rotate;
+    vec3 scale;
+    
+    const mat4 &getMatrix(vec3 position) {
+        auto M = make_shared<MatrixStack>();
+        M->translate(position);
+        M->rotate(rotate.x, vec3(1, 0, 0));
+        M->rotate(rotate.y, vec3(0, 1, 0));
+        M->rotate(rotate.z, vec3(0, 0, 1));
+        M->scale(scale);
+        return M->topMatrix();
+    }
 };
 
 #endif /* TransformComponent_h */

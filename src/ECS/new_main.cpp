@@ -18,6 +18,8 @@
 #include "../Shape.h"
 #include "RenderSystem.h"
 #include "ShaderSystem.h"
+#include "PhysicsSystem.h"
+#include "CollisionSystem.h"
 #include "EntityFactory.h"
 #include "World.h"
 #include "BunnySpawnSystem.h"
@@ -49,6 +51,8 @@ static void init(RenderSystem &renderer, ShaderSystem &shader)
 void initGameObjects(World &world) {
     EntityFactory::createGround(world);
     EntityFactory::createSheep(world);
+//    int sheep2 = EntityFactory::createSheep(world);
+//    world.transform[sheep2].transforms.rotate(90, vec3(0, 1, 0));
 }
 
 long long getCurrentTime() {
@@ -64,6 +68,8 @@ int main(int argc, char **argv) {
 
 	//seed rand
 	srand(time(0));
+    PhysicsSystem physicsSystem;
+    CollisionSystem collisionSystem;
     
     // Initialization
     window.initialize();
@@ -83,6 +89,10 @@ int main(int argc, char **argv) {
 			int bunny = spawner.spawnBunny(world);
 			elapsedTime = curTime;
 		}
+        
+        physicsSystem.update(world);
+        collisionSystem.update(world, renderSystem);
+        
         // Update objects
 //        for (GameObject* obj : gameObjects) {
 //            obj.update();

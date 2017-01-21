@@ -6,10 +6,12 @@
 using namespace glm;
 
 class BoundingBoxComponent {
-
 public:
-	vec3 mins;
-	vec3 maxes;
+    BoundingBoxComponent() {};
+    virtual ~BoundingBoxComponent() {};
+    
+	vec3 min = vec3(0, 0, 0);
+	vec3 max = vec3(0, 0, 0);
 };
 
 #endif /* BoundingBoxComponent_h */

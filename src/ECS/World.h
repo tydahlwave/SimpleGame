@@ -31,7 +31,8 @@ enum Component { // Max of 32 components
     COMP_ENTITY_TYPE    = 1 << 3,
     COMP_SHADER_TYPE    = 1 << 4,
     COMP_TRANSFORM      = 1 << 5,
-    COMP_USER_INPUT     = 1 << 6
+    COMP_USER_INPUT     = 1 << 6,
+    COMP_ACCELERATION   = 1 << 7
 };
 
 class World {

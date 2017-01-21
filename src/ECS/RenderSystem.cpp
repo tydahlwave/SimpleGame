@@ -59,8 +59,14 @@ void applyCameraMatrix(World &world, const shared_ptr<Program> prog) {
     glUniformMatrix4fv(prog->getUniform("V"), 1, GL_FALSE, value_ptr(V->topMatrix()));
 }
 
-void applyTransformMatrix(MatrixStack &transforms, const shared_ptr<Program> prog) {
-    glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, value_ptr(transforms.topMatrix()));
+void applyTransformMatrix(vec3 position, TransformComponent &transform, const shared_ptr<Program> prog) {
+    auto M = make_shared<MatrixStack>();
+    M->translate(position);
+    M->rotate(transform.rotate.x, vec3(1, 0, 0));
+    M->rotate(transform.rotate.y, vec3(0, 1, 0));
+    M->rotate(transform.rotate.z, vec3(0, 0, 1));
+    M->scale(transform.scale);
+    glUniformMatrix4fv(prog->getUniform("M"), 1, GL_FALSE, value_ptr(M->topMatrix()));
 }
 
 void RenderSystem::drawShape(World &world, int entity, Window &window, const shared_ptr<Shape> shape, const shared_ptr<Program> shader) {
@@ -77,8 +83,7 @@ void RenderSystem::drawShape(World &world, int entity, Window &window, const sha
     
     applyPerspectiveMatrix(window, shader);
     applyCameraMatrix(world, shader);
-    applyTransformMatrix(world.transform[entity].transforms, shader);
-
+    applyTransformMatrix(world.position[entity].value, world.transform[entity], shader);
     
     shape->draw(shader);
     
