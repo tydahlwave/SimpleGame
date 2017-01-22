@@ -72,7 +72,11 @@ int BunnySpawnSystem::spawnBunny(World &world) {
 
 	if (bunny != -1)
 	{
-		world.transform[bunny].transforms.translate(vec3(randX, 0, randZ));
+        world.position[bunny].value = vec3(randX, 0, randZ);
+        vec3 vel = normalize(vec3(((rand() % 10) - 5) / 10.0, 0, ((rand() % 10) - 5) / 10.0));
+        world.velocity[bunny].value += vel;
+        world.velocity[bunny].value.x /= 10;
+        world.velocity[bunny].value.z /= 10;
 	}
 
 	return bunny;

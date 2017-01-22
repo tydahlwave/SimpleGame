@@ -10,7 +10,7 @@
 
 #include "ShaderSystem.h"
 
-static const string RESOURCE_DIR = "./resources/";
+static const string RESOURCE_DIR = "../../resources/";
 
 void ShaderSystem::loadPhong() {
     shared_ptr<Program> shader = make_shared<Program>();
