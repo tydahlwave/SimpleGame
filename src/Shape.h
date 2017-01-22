@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include "BoundingBoxComponent.h"
+//#include "BoundingBoxComponent.h"
 #include "MatrixStack.h"
 
 class Program;
@@ -19,9 +19,9 @@ public:
 	void init();
 	void resize();
 	void draw(const std::shared_ptr<Program> prog) const;
-	BoundingBoxComponent boundingBox;
+//	BoundingBoxComponent boundingBox;
 	void computeBoundingBox();
-    BoundingBoxComponent *getBoundingBoxWithTransform(const mat4 transform);
+//    BoundingBoxComponent *getBoundingBoxWithTransform(const mat4 transform);
 private:
 	void computeNormals();
 	std::vector<unsigned int> eleBuf;
