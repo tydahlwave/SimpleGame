@@ -76,7 +76,7 @@ void CollisionSystem::checkCameraCollision(World &world, RenderSystem &renderSys
             (world.camera.pos.y >= bb->min.y && world.camera.pos.y <= bb->max.y) &&
             (world.camera.pos.z >= bb->min.z && world.camera.pos.z <= bb->max.z)) {
             // If collided with bunny, remove its velocity component
-            if (entityName.compare("bunny")) {
+            if (entityName.compare("bunny") == 0) {
                 world.entity[entity] &= ~COMP_VELOCITY;
             }
         }
