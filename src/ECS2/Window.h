@@ -26,6 +26,7 @@ public:
     
     int Initialize();
     void Terminate();
+    void Update();
     
     int GetHeight();
     int GetWidth();

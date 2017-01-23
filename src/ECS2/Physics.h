@@ -13,7 +13,7 @@
 
 class Physics {
 public:
-    Physics();
+    Physics() {};
     virtual ~Physics() {};
     
     glm::vec3 gravity = glm::vec3(0, -0.01, 0);

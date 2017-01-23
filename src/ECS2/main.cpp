@@ -16,7 +16,9 @@
 #include "Mesh.h"
 #include "Material.h"
 #include "Shader.h"
-//#include "Renderer.h"
+#include "EntityFactory.h"
+#include "Physics.h"
+#include "Renderer.h"
 
 static std::string resourceDir;
 
@@ -33,19 +35,42 @@ int main(int argc, char **argv) {
     Shader::LoadShaders(resourceDir);
     Material::InitializeMaterials();
     
-//    Renderer renderer = Renderer();
+    World world = World();
+    Window window = Window(&world);
+    Physics physics = Physics();
+    Renderer renderer = Renderer();
     
+    srand(time(0));
     
-    // Init window
-    // Load models
-    // set cur time
-    
+    long oldTime = Time::Now();
+    long elapsedTime = oldTime;
     // Game loop
-        // get cur time
-        // Get user input
-        // Update objects
-        // Render objects
-        // update cur time
+    while (!window.ShouldClose()) {
+        long curTime = Time::Now();
+        std::cout << "Frame time = " << curTime - oldTime << std::endl;
+        int dt = curTime - oldTime;
+        
+        //spawn bunnies
+        if (curTime - elapsedTime >= 3000)
+        {
+//            int bunny = spawner.spawnBunny(world);
+            GameObject *bunny = EntityFactory::createBunny(&world);
+            elapsedTime = curTime;
+        }
+        
+        physics.Update(world);
+        renderer.Render(world, window);
+        window.Update();
+        
+        // Update camera;
+//        world.camera.update();
+        
+        // Reset current frame time
+        oldTime = curTime;
+    }
+    
+    // Clean up
+    window.Terminate();
     
     return 0;
 }

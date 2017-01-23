@@ -27,6 +27,7 @@ float beta1 = -M_PI/2;
 
 Window::Window(World *w) :mouseMoveCallbacks() {
     Window::world = w;
+    Initialize();
 }
 
 static void error_callback(int error, const char *description) {
@@ -159,6 +160,11 @@ int Window::Initialize() {
 void Window::Terminate() {
     glfwDestroyWindow(window);
     glfwTerminate();
+}
+
+void Window::Update() {
+    SwapBuffers();
+    PollEvents();
 }
 
 int Window::GetHeight() {
