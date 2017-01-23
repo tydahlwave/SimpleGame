@@ -52,6 +52,7 @@ Component *GameObject::AddComponent(std::string name) {
             std::cout << name << " component does not exist." << std::endl;
         }
         components[name] = component;
+        return component;
     } else {
         std::cout << name << " component has already been added." << std::endl;
     }

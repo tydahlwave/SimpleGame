@@ -156,7 +156,7 @@ void Shape::draw(Program *prog) const
 	int h_pos, h_nor, h_tex;
 	h_pos = h_nor = h_tex = -1;
 
-   glBindVertexArray(vaoID);
+    glBindVertexArray(vaoID);
 	// Bind position buffer
 	h_pos = prog->getAttribute("vertPos");
 	GLSL::enableVertexAttribArray(h_pos);
@@ -165,7 +165,7 @@ void Shape::draw(Program *prog) const
 	
 	// Bind normal buffer
 	h_nor = prog->getAttribute("vertNor");
-	if(h_nor != -1 && norBufID != 0) {
+	if (h_nor != -1 && norBufID != 0) {
 		GLSL::enableVertexAttribArray(h_nor);
 		glBindBuffer(GL_ARRAY_BUFFER, norBufID);
 		glVertexAttribPointer(h_nor, 3, GL_FLOAT, GL_FALSE, 0, (const void *)0);
@@ -174,7 +174,7 @@ void Shape::draw(Program *prog) const
 	if (texBufID != 0) {	
 		// Bind texcoords buffer
 		h_tex = prog->getAttribute("vertTex");
-		if(h_tex != -1 && texBufID != 0) {
+		if (h_tex != -1 && texBufID != 0) {
 			GLSL::enableVertexAttribArray(h_tex);
 			glBindBuffer(GL_ARRAY_BUFFER, texBufID);
 			glVertexAttribPointer(h_tex, 2, GL_FLOAT, GL_FALSE, 0, (const void *)0);
@@ -188,10 +188,10 @@ void Shape::draw(Program *prog) const
 	glDrawElements(GL_TRIANGLES, (int)eleBuf.size(), GL_UNSIGNED_INT, (const void *)0);
 	
 	// Disable and unbind
-	if(h_tex != -1) {
+	if (h_tex != -1) {
 		GLSL::disableVertexAttribArray(h_tex);
 	}
-	if(h_nor != -1) {
+	if (h_nor != -1) {
 		GLSL::disableVertexAttribArray(h_nor);
 	}
 	GLSL::disableVertexAttribArray(h_pos);

@@ -30,6 +30,10 @@ Window::Window(World *w) :mouseMoveCallbacks() {
     Initialize();
 }
 
+Window::~Window() {
+    Terminate();
+}
+
 static void error_callback(int error, const char *description) {
     cerr << description << endl;
 }

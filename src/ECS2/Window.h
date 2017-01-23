@@ -22,7 +22,7 @@ typedef void (*MouseCallback)(double, double);
 class Window {
 public:
     Window(World *w);
-    virtual ~Window() {};
+    virtual ~Window();
     
     int Initialize();
     void Terminate();

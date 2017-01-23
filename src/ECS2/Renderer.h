@@ -14,9 +14,10 @@
 
 class Renderer {
 public:
-    Renderer() {};
+    Renderer();
     virtual ~Renderer() {};
     
+    void Initialize();
     void Render(World &world, Window &window);
 };
 

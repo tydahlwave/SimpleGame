@@ -8,10 +8,15 @@
 
 // value_ptr for glm
 #include <glm/gtc/type_ptr.hpp>
+#include "../GLSL.h"
 
 #include "Renderer.h"
 #include "MeshRenderer.h"
 #include "Camera.h"
+
+Renderer::Renderer() {
+    Initialize();
+}
 
 void applyProjectionMatrix(Program *program, Window &window, Camera *camera) {
     MatrixStack stack = MatrixStack();
@@ -38,6 +43,14 @@ void applyMaterial(Program *program, Material *material) {
     glUniform3f(program->getUniform("matDiffuseColor"), diffuse.r, diffuse.g, diffuse.b);
     glUniform3f(program->getUniform("matSpecularColor"), specular.r, specular.g, specular.b);
     glUniform1f(program->getUniform("matShine"), material->shine);
+}
+
+void Renderer::Initialize() {
+    GLSL::checkVersion();
+    // Set background color.
+    glClearColor(.12f, .34f, .56f, 1.0f);
+    // Enable z-buffer test.
+    glEnable(GL_DEPTH_TEST);
 }
 
 void Renderer::Render(World &world, Window &window) {
