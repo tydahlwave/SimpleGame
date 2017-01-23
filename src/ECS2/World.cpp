@@ -13,6 +13,6 @@ World::World() {
     EntityFactory::createMainCamera(this);
 }
 
-std::vector<std::shared_ptr<GameObject>> World::GetGameObjects() {
+std::vector<GameObject*> World::GetGameObjects() {
     return gameObjects;
 }

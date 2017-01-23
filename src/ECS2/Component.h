@@ -19,6 +19,7 @@ class GameObject;
 class Component : public Object {
 public:
     Component() { name = "Component"; };
+    Component(GameObject* go) :Component() { gameObject = go; };
     virtual ~Component() {};
     
     GameObject *gameObject;

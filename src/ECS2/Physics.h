@@ -16,7 +16,9 @@ public:
     Physics();
     virtual ~Physics() {};
     
-    void update(World &world);
+    glm::vec3 gravity = glm::vec3(0, -0.01, 0);
+    
+    void Update(World &world);
 };
 
 #endif /* Physics_h */

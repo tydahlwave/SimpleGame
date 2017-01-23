@@ -7,12 +7,18 @@
 //
 
 #include "Renderer.h"
+#include "MeshRenderer.h"
 
-void Renderer::initialize() {
+void Renderer::Initialize() {
     // Load all meshes
     // This should look at the resource directory and automatically load all the obj files.
 }
 
-void Renderer::render(World &world) {
-    
+void Renderer::Render(World &world) {
+    for (GameObject *gameObject : world.GetGameObjects()) {
+        MeshRenderer *meshRenderer = (MeshRenderer*)gameObject->GetComponent("MeshRenderer");
+        if (meshRenderer) {
+            
+        }
+    }
 }

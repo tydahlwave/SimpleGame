@@ -12,6 +12,7 @@
 #include "Collider.h"
 #include "Camera.h"
 #include "MeshRenderer.h"
+#include "RigidBody.h"
 
 GameObject::GameObject() {
     name = "GameObject";
@@ -42,6 +43,8 @@ Component *GameObject::AddComponent(std::string name) {
             component = (Component*) new Camera();
         } else if (name.compare("MeshRenderer") == 0) {
             component = (Component*) new MeshRenderer();
+        } else if (name.compare("RigidBody") == 0) {
+            component = (Component*) new RigidBody();
         } else {
             component = nullptr;
             std::cout << name << " component does not exist." << std::endl;

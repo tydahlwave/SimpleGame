@@ -12,28 +12,32 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <vector>
 
 #include "World.h"
+
+typedef void (*MouseCallback)(double, double);
 
 class Window {
 public:
     Window(World *w) { Window::world = w; }
     virtual ~Window() {}
     
-    int initialize();
-    void terminate();
+    int Initialize();
+    void Terminate();
     
-    int getHeight();
-    int getWidth();
+    int GetHeight();
+    int GetWidth();
     
-    bool shouldClose();
-    void swapBuffers();
-    void pollEvents();
+    bool ShouldClose();
+    void SwapBuffers();
+    void PollEvents();
     static void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods);
     static void MouseMoveCallback(GLFWwindow *window, double posX, double posY);
 private:
     GLFWwindow *window; // Main application window
     static World *world;
+    std::vector<MouseCallback> mouseMoveCallbacks;
 };
 
 #endif /* Window_h */

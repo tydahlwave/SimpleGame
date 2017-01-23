@@ -16,8 +16,8 @@ public:
     Renderer();
     virtual ~Renderer() {};
     
-    void initialize();
-    void render(World &world);
+    void Initialize();
+    void Render(World &world);
 };
 
 #endif /* Renderer_h */

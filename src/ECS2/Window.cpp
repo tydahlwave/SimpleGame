@@ -103,7 +103,7 @@ static void resize_callback(GLFWwindow *window, int width, int height) {
     glViewport(0, 0, width, height);
 }
 
-int Window::initialize() {
+int Window::Initialize() {
     // Set error callback.
     glfwSetErrorCallback(error_callback);
     // Initialize the library.
@@ -152,33 +152,33 @@ int Window::initialize() {
     return 0;
 }
 
-void Window::terminate() {
+void Window::Terminate() {
     glfwDestroyWindow(window);
     glfwTerminate();
 }
 
-int Window::getHeight() {
+int Window::GetHeight() {
     int width, height;
     glfwGetFramebufferSize(window, &width, &height);
     return height;
 }
 
-int Window::getWidth() {
+int Window::GetWidth() {
     int width, height;
     glfwGetFramebufferSize(window, &width, &height);
     return width;
 }
 
-bool Window::shouldClose() {
+bool Window::ShouldClose() {
     return glfwWindowShouldClose(window);
 }
 
-void Window::swapBuffers() {
+void Window::SwapBuffers() {
     // Swap front and back buffers.
     glfwSwapBuffers(window);
 }
 
-void Window::pollEvents() {
+void Window::PollEvents() {
     // Poll for and process events.
     glfwPollEvents();
 }

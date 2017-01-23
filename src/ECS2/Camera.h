@@ -19,9 +19,10 @@ enum ProjectionType {
 class Camera : public Component {
 public:
     Camera() { name = "Camera"; };
+    Camera(ProjectionType p, float n, float f) :Camera() { projectionType = p; near = n; far = f; }
     virtual ~Camera() {};
     
-    ProjectionType projectionType;
+    ProjectionType projectionType = Perspective;
     float near = 1;
     float far = 100;
 };

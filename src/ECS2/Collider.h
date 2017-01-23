@@ -10,14 +10,14 @@
 #define Collider_h
 
 #include "Component.h"
-#include "RigidBody.h"
+//#include "RigidBody.h"
 
 class Collider : public Component {
 public:
     Collider() { name = "Collider"; };
     virtual ~Collider() {};
     
-    RigidBody *rigidBody; // The rigidbody of the gameobject the component is attached to
+//    RigidBody *rigidBody; // The rigidbody of the gameobject the component is attached to
 };
 
 #endif /* Collider_h */

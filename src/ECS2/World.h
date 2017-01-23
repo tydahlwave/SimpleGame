@@ -20,9 +20,9 @@ public:
     World();
     virtual ~World() {};
     
-    std::vector<std::shared_ptr<GameObject>> GetGameObjects();
+    std::vector<GameObject*> GetGameObjects();
 private:
-    std::vector<std::shared_ptr<GameObject>> gameObjects;
+    std::vector<GameObject*> gameObjects;
 };
 
 #endif /* World_h */
