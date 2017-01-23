@@ -16,6 +16,7 @@
 #include "Mesh.h"
 #include "Material.h"
 #include "Shader.h"
+//#include "Renderer.h"
 
 static std::string resourceDir;
 
@@ -31,6 +32,9 @@ int main(int argc, char **argv) {
     Mesh::LoadMeshes(resourceDir);
     Shader::LoadShaders(resourceDir);
     Material::InitializeMaterials();
+    
+//    Renderer renderer = Renderer();
+    
     
     // Init window
     // Load models

@@ -20,7 +20,10 @@ public:
     World();
     virtual ~World() {};
     
+    GameObject *mainCamera = nullptr;
+    
     std::vector<GameObject*> GetGameObjects();
+    GameObject *CreateGameObject(std::string name);
 private:
     std::vector<GameObject*> gameObjects;
 };

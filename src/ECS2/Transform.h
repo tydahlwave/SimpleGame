@@ -10,6 +10,7 @@
 #define Transform_h
 
 #include "Component.h"
+#include "../MatrixStack.h"
 
 class Transform : public Component {
 public:
@@ -20,6 +21,16 @@ public:
     glm::vec3 position = glm::vec3(0, 0, 0);
     glm::vec3 rotation = glm::vec3(0, 0, 0);
     glm::vec3 scale = glm::vec3(1, 1, 1);
+    
+    const glm::mat4 &GetMatrix() {
+        MatrixStack stack = MatrixStack();
+        stack.translate(position);
+        stack.rotate(rotation.x, glm::vec3(1, 0, 0));
+        stack.rotate(rotation.x, glm::vec3(1, 0, 0));
+        stack.rotate(rotation.x, glm::vec3(1, 0, 0));
+        stack.scale(scale);
+        return stack.topMatrix();
+    }
 };
 
 

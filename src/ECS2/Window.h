@@ -14,6 +14,7 @@
 #include <GLFW/glfw3.h>
 #include <vector>
 
+#include "glm/glm.hpp"
 #include "World.h"
 
 typedef void (*MouseCallback)(double, double);

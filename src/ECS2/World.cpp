@@ -10,9 +10,15 @@
 #include "EntityFactory.h"
 
 World::World() :gameObjects() {
-    EntityFactory::createMainCamera(this);
+    mainCamera = EntityFactory::createMainCamera(this);
 }
 
 std::vector<GameObject*> World::GetGameObjects() {
     return gameObjects;
+}
+
+GameObject *World::CreateGameObject(std::string name) {
+    GameObject *gameObject = new GameObject(name);
+    gameObject->world = this;
+    return gameObject;
 }

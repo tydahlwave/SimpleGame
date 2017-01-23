@@ -21,7 +21,7 @@ public:
 	void loadMesh(const std::string &meshName);
 	void init();
 	void resize();
-	void draw(const std::shared_ptr<Program> prog) const;
+	void draw(Program *prog) const;
 	void computeBoundingBox();
 private:
 	void computeNormals();

@@ -17,12 +17,12 @@
 class MeshRenderer : public Component {
 public:
     MeshRenderer() { name = "MeshRenderer"; };
-    MeshRenderer(Mesh *m, Material *mat, Shader *s) :MeshRenderer() { mesh = m; material = mat; shader = s; }
+    MeshRenderer(Mesh *m, Shader *s, Material *mat) :MeshRenderer() { mesh = m; shader = s; material = mat; }
     virtual ~MeshRenderer() {};
     
     Mesh *mesh = nullptr;
-    Material *material = nullptr;
     Shader *shader = nullptr;
+    Material *material = nullptr;
 };
 
 #endif /* MeshRenderer_h */

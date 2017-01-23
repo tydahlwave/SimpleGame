@@ -151,7 +151,7 @@ void Shape::init()
 	assert(glGetError() == GL_NO_ERROR);
 }
  
-void Shape::draw(const shared_ptr<Program> prog) const
+void Shape::draw(Program *prog) const
 {
 	int h_pos, h_nor, h_tex;
 	h_pos = h_nor = h_tex = -1;
