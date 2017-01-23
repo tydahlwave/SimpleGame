@@ -28,8 +28,8 @@ public:
     GameObject(std::string name, std::vector<std::string> componentNames);
     virtual ~GameObject() {};
     
-    World *world;
-    Transform *transform;
+    World *world = nullptr;
+    Transform *transform = nullptr;
     
     Component *AddComponent(std::string name);
     Component *GetComponent(std::string name);

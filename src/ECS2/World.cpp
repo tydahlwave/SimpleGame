@@ -9,7 +9,7 @@
 #include "World.h"
 #include "EntityFactory.h"
 
-World::World() {
+World::World() :gameObjects() {
     EntityFactory::createMainCamera(this);
 }
 

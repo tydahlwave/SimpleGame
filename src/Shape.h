@@ -5,25 +5,27 @@
 #include <string>
 #include <vector>
 #include <memory>
-//#include "BoundingBoxComponent.h"
+
 #include "MatrixStack.h"
+#include "ECS2/Bounds.h"
 
 class Program;
 
-class Shape
-{
+class Shape {
 public:
 	Shape();
 	virtual ~Shape();
+    
+    Bounds *bounds;
+    
 	void loadMesh(const std::string &meshName);
 	void init();
 	void resize();
 	void draw(const std::shared_ptr<Program> prog) const;
-//	BoundingBoxComponent boundingBox;
 	void computeBoundingBox();
-//    BoundingBoxComponent *getBoundingBoxWithTransform(const mat4 transform);
 private:
 	void computeNormals();
+    void computeBounds();
 	std::vector<unsigned int> eleBuf;
 	std::vector<float> posBuf;
 	std::vector<float> norBuf;
@@ -32,7 +34,7 @@ private:
 	unsigned posBufID;
 	unsigned norBufID;
 	unsigned texBufID;
-   unsigned vaoID;
+    unsigned vaoID;
 };
 
 #endif

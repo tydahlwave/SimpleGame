@@ -20,8 +20,8 @@ typedef void (*MouseCallback)(double, double);
 
 class Window {
 public:
-    Window(World *w) { Window::world = w; }
-    virtual ~Window() {}
+    Window(World *w);
+    virtual ~Window() {};
     
     int Initialize();
     void Terminate();

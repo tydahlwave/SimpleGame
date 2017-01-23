@@ -11,7 +11,7 @@
 
 #include "Collider.h"
 
-class BoxCollider : Collider {
+class BoxCollider : public Collider {
 public:
     BoxCollider() { name = "BoxCollider"; };
     BoxCollider(glm::vec3 c, glm::vec3 s) :BoxCollider() { center = c; size = s; }

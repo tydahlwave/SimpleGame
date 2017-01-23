@@ -11,7 +11,7 @@
 
 #include "Collider.h"
 
-class SphereCollider : Collider {
+class SphereCollider : public Collider {
 public:
     SphereCollider() { name = "SphereCollider"; };
     SphereCollider(glm::vec3 c, float r) :SphereCollider() { center = c; radius = r; }

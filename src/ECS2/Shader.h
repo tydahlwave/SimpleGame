@@ -9,8 +9,20 @@
 #ifndef Shader_h
 #define Shader_h
 
-class Shader : public Object {
+#include <string>
+
+#include "../Program.h"
+
+class Shader {
+public:
+    Shader() {};
+    Shader(Program *p) { program = p; }
+    virtual ~Shader() {};
     
+    Program *program = nullptr;
+    
+    static void LoadShaders(std::string resourceDir);
+    static Shader *phong;
 };
 
 #endif /* Shader_h */

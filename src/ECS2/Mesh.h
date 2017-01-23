@@ -9,15 +9,23 @@
 #ifndef Mesh_h
 #define Mesh_h
 
-#include "Object.h"
-#include "Bounds.h"
+#include <string>
 
-class Mesh : public Object {
+#include "Bounds.h"
+#include "../Shape.h"
+
+class Mesh {
 public:
     Mesh() {};
+    Mesh(Shape *s) { shape = s; };
     virtual ~Mesh() {};
     
-    Bounds *bounds;
+    Shape *shape = nullptr;
+    
+    static void LoadMeshes(std::string resourceDir);
+    static Mesh *bunny;
+    static Mesh *cube;
+    static Mesh *plane;
 };
 
 #endif /* Mesh_h */

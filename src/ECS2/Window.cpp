@@ -25,6 +25,10 @@ World* Window::world;
 float alpha1 = 0;
 float beta1 = -M_PI/2;
 
+Window::Window(World *w) :mouseMoveCallbacks() {
+    Window::world = w;
+}
+
 static void error_callback(int error, const char *description) {
     cerr << description << endl;
 }

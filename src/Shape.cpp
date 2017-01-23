@@ -1,5 +1,6 @@
 #include "Shape.h"
 #include <iostream>
+#include <cfloat>
 
 #define EIGEN_DONT_ALIGN_STATICALLY
 #include <Eigen/Dense>
@@ -18,66 +19,10 @@ Shape::Shape() :
 	posBufID(0),
 	norBufID(0),
 	texBufID(0), 
-    vaoID(0)/*,
-    boundingBox()*/
-{
-}
+    vaoID(0)
+{}
 
-Shape::~Shape()
-{
-}
-
-void Shape::computeNormals() {
-   for (size_t v = 0; v < eleBuf.size()/3; v++) {
-      int idx1 = eleBuf[3*v+0];
-      int idx2 = eleBuf[3*v+1];
-      int idx3 = eleBuf[3*v+2];
-
-      Vector3d p1(posBuf[3*idx1+0], posBuf[3*idx1+1], posBuf[3*idx1+2]);
-      Vector3d p2(posBuf[3*idx2+0], posBuf[3*idx2+1], posBuf[3*idx2+2]);
-      Vector3d p3(posBuf[3*idx3+0], posBuf[3*idx3+1], posBuf[3*idx3+2]);
-
-      Vector3d vec1 = p2 - p1;
-      Vector3d vec2 = p3 - p1;
-
-      Vector3d normal = vec1.cross(vec2);
-
-      // Add this normal to all of the vertices
-      norBuf[3*idx1+0] += normal[0];
-      norBuf[3*idx1+1] += normal[1];
-      norBuf[3*idx1+2] += normal[2];
-      norBuf[3*idx2+0] += normal[0];
-      norBuf[3*idx2+1] += normal[1];
-      norBuf[3*idx2+2] += normal[2];
-      norBuf[3*idx3+0] += normal[0];
-      norBuf[3*idx3+1] += normal[1];
-      norBuf[3*idx3+2] += normal[2];
-   }
-   // Normalize the normal vectors
-   for (size_t v = 0; v < eleBuf.size()/3; v++) {
-      int idx1 = eleBuf[3*v+0];
-      int idx2 = eleBuf[3*v+1];
-      int idx3 = eleBuf[3*v+2];
-
-      Vector3d n1(norBuf[3*idx1+0], norBuf[3*idx1+1], norBuf[3*idx1+2]);
-      Vector3d n2(norBuf[3*idx2+0], norBuf[3*idx2+1], norBuf[3*idx2+2]);
-      Vector3d n3(norBuf[3*idx3+0], norBuf[3*idx3+1], norBuf[3*idx3+2]);
-
-      Vector3d normalized1 = n1.normalized();
-      Vector3d normalized2 = n2.normalized();
-      Vector3d normalized3 = n3.normalized();
-
-      norBuf[3*idx1+0] = normalized1[0];
-      norBuf[3*idx1+1] = normalized1[1];
-      norBuf[3*idx1+2] = normalized1[2];
-      norBuf[3*idx2+0] = normalized2[0];
-      norBuf[3*idx2+1] = normalized2[1];
-      norBuf[3*idx2+2] = normalized2[2];
-      norBuf[3*idx3+0] = normalized3[0];
-      norBuf[3*idx3+1] = normalized3[1];
-      norBuf[3*idx3+2] = normalized3[2];
-   }
-}
+Shape::~Shape() {}
 
 void Shape::loadMesh(const string &meshName)
 {
@@ -96,27 +41,27 @@ void Shape::loadMesh(const string &meshName)
 		texBuf = shapes[0].mesh.texcoords;
 		eleBuf = shapes[0].mesh.indices;
 
-      // Initialize normal array to 0s
-      for (size_t v = 0; v < posBuf.size(); v++) {
-         norBuf.push_back(0);
-      }
+        // Initialize normal array to 0s
+        for (size_t v = 0; v < posBuf.size(); v++) {
+            norBuf.push_back(0);
+        }
 
-      computeNormals();
+        computeNormals();
 	}
 }
 
 void Shape::resize() {
-  float minX, minY, minZ;
-   float maxX, maxY, maxZ;
-   float scaleX, scaleY, scaleZ;
-   float shiftX, shiftY, shiftZ;
-   float epsilon = 0.001;
+    float minX, minY, minZ;
+    float maxX, maxY, maxZ;
+    float scaleX, scaleY, scaleZ;
+    float shiftX, shiftY, shiftZ;
+    float epsilon = 0.001;
 
-   minX = minY = minZ = 1.1754E+38F;
-   maxX = maxY = maxZ = -1.1754E+38F;
+    minX = minY = minZ = 1.1754E+38F;
+    maxX = maxY = maxZ = -1.1754E+38F;
 
-   //Go through all vertices to determine min and max of each dimension
-   for (size_t v = 0; v < posBuf.size() / 3; v++) {
+    //Go through all vertices to determine min and max of each dimension
+    for (size_t v = 0; v < posBuf.size() / 3; v++) {
 		if(posBuf[3*v+0] < minX) minX = posBuf[3*v+0];
 		if(posBuf[3*v+0] > maxX) maxX = posBuf[3*v+0];
 
@@ -128,27 +73,27 @@ void Shape::resize() {
 	}
 
 	//From min and max compute necessary scale and shift for each dimension
-   float maxExtent, xExtent, yExtent, zExtent;
-   xExtent = maxX-minX;
-   yExtent = maxY-minY;
-   zExtent = maxZ-minZ;
-   if (xExtent >= yExtent && xExtent >= zExtent) {
-      maxExtent = xExtent;
-   }
-   if (yExtent >= xExtent && yExtent >= zExtent) {
-      maxExtent = yExtent;
-   }
-   if (zExtent >= xExtent && zExtent >= yExtent) {
-      maxExtent = zExtent;
-   }
-   scaleX = 2.0 /maxExtent;
-   shiftX = minX + (xExtent/ 2.0);
-   scaleY = 2.0 / maxExtent;
-   shiftY = minY + (yExtent / 2.0);
-   scaleZ = 2.0/ maxExtent;
-   shiftZ = minZ + (zExtent)/2.0;
+    float maxExtent, xExtent, yExtent, zExtent;
+    xExtent = maxX-minX;
+    yExtent = maxY-minY;
+    zExtent = maxZ-minZ;
+    if (xExtent >= yExtent && xExtent >= zExtent) {
+        maxExtent = xExtent;
+    }
+    if (yExtent >= xExtent && yExtent >= zExtent) {
+        maxExtent = yExtent;
+    }
+    if (zExtent >= xExtent && zExtent >= yExtent) {
+        maxExtent = zExtent;
+    }
+    scaleX = 2.0 /maxExtent;
+    shiftX = minX + (xExtent/ 2.0);
+    scaleY = 2.0 / maxExtent;
+    shiftY = minY + (yExtent / 2.0);
+    scaleZ = 2.0/ maxExtent;
+    shiftZ = minZ + (zExtent)/2.0;
 
-   //Go through all verticies shift and scale them
+    //Go through all verticies shift and scale them
 	for (size_t v = 0; v < posBuf.size() / 3; v++) {
 		posBuf[3*v+0] = (posBuf[3*v+0] - shiftX) * scaleX;
 		assert(posBuf[3*v+0] >= -1.0 - epsilon);
@@ -162,46 +107,14 @@ void Shape::resize() {
 	}
 }
 
-//void Shape::computeBoundingBox() {
-//	float minX, minY, minZ;
-//	float maxX, maxY, maxZ;
-//
-//	minX = minY = minZ = 1.1754E+38F;
-//	maxX = maxY = maxZ = -1.1754E+38F;
-//
-//
-//	//Go through all vertices to determine min and max of each dimension
-//	for (size_t v = 0; v < posBuf.size() / 3; v++) {
-//		if (posBuf[3 * v + 0] < minX) minX = posBuf[3 * v + 0];
-//		if (posBuf[3 * v + 0] > maxX) maxX = posBuf[3 * v + 0];
-//
-//		if (posBuf[3 * v + 1] < minY) minY = posBuf[3 * v + 1];
-//		if (posBuf[3 * v + 1] > maxY) maxY = posBuf[3 * v + 1];
-//
-//		if (posBuf[3 * v + 2] < minZ) minZ = posBuf[3 * v + 2];
-//		if (posBuf[3 * v + 2] > maxZ) maxZ = posBuf[3 * v + 2];
-//	}
-//
-//    boundingBox.min = vec3(minX, minY, minZ);
-//    boundingBox.max = vec3(maxX, maxY, maxZ);
-//
-//	/*cout << boundingBox.mins.x;
-//	cout << boundingBox.mins.y;
-//	cout << boundingBox.mins.z;
-//	cout << boundingBox.maxes.x;
-//	cout << boundingBox.maxes.y;
-//	cout << boundingBox.maxes.z;*/
-//
-//}
-
 void Shape::init()
 {
-   // Initialize the vertex array object
-   glGenVertexArrays(1, &vaoID);
-   glBindVertexArray(vaoID);
-
-   //ComputeBoundingBox
-//   computeBoundingBox();
+    // Compute bounds
+    computeBounds();
+    
+    // Initialize the vertex array object
+    glGenVertexArrays(1, &vaoID);
+    glBindVertexArray(vaoID);
 
 	// Send the position array to the GPU
 	glGenBuffers(1, &posBufID);
@@ -284,6 +197,77 @@ void Shape::draw(const shared_ptr<Program> prog) const
 	GLSL::disableVertexAttribArray(h_pos);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
+void Shape::computeNormals() {
+    for (size_t v = 0; v < eleBuf.size()/3; v++) {
+        int idx1 = eleBuf[3*v+0];
+        int idx2 = eleBuf[3*v+1];
+        int idx3 = eleBuf[3*v+2];
+        
+        Vector3d p1(posBuf[3*idx1+0], posBuf[3*idx1+1], posBuf[3*idx1+2]);
+        Vector3d p2(posBuf[3*idx2+0], posBuf[3*idx2+1], posBuf[3*idx2+2]);
+        Vector3d p3(posBuf[3*idx3+0], posBuf[3*idx3+1], posBuf[3*idx3+2]);
+        
+        Vector3d vec1 = p2 - p1;
+        Vector3d vec2 = p3 - p1;
+        
+        Vector3d normal = vec1.cross(vec2);
+        
+        // Add this normal to all of the vertices
+        norBuf[3*idx1+0] += normal[0];
+        norBuf[3*idx1+1] += normal[1];
+        norBuf[3*idx1+2] += normal[2];
+        norBuf[3*idx2+0] += normal[0];
+        norBuf[3*idx2+1] += normal[1];
+        norBuf[3*idx2+2] += normal[2];
+        norBuf[3*idx3+0] += normal[0];
+        norBuf[3*idx3+1] += normal[1];
+        norBuf[3*idx3+2] += normal[2];
+    }
+    // Normalize the normal vectors
+    for (size_t v = 0; v < eleBuf.size()/3; v++) {
+        int idx1 = eleBuf[3*v+0];
+        int idx2 = eleBuf[3*v+1];
+        int idx3 = eleBuf[3*v+2];
+        
+        Vector3d n1(norBuf[3*idx1+0], norBuf[3*idx1+1], norBuf[3*idx1+2]);
+        Vector3d n2(norBuf[3*idx2+0], norBuf[3*idx2+1], norBuf[3*idx2+2]);
+        Vector3d n3(norBuf[3*idx3+0], norBuf[3*idx3+1], norBuf[3*idx3+2]);
+        
+        Vector3d normalized1 = n1.normalized();
+        Vector3d normalized2 = n2.normalized();
+        Vector3d normalized3 = n3.normalized();
+        
+        norBuf[3*idx1+0] = normalized1[0];
+        norBuf[3*idx1+1] = normalized1[1];
+        norBuf[3*idx1+2] = normalized1[2];
+        norBuf[3*idx2+0] = normalized2[0];
+        norBuf[3*idx2+1] = normalized2[1];
+        norBuf[3*idx2+2] = normalized2[2];
+        norBuf[3*idx3+0] = normalized3[0];
+        norBuf[3*idx3+1] = normalized3[1];
+        norBuf[3*idx3+2] = normalized3[2];
+    }
+}
+
+void Shape::computeBounds() {
+    glm::vec3 min = glm::vec3(FLT_MAX, FLT_MAX, FLT_MAX);
+    glm::vec3 max = glm::vec3(FLT_MIN, FLT_MIN, FLT_MIN);
+
+    // Go through all vertices to determine min and max of each dimension
+    for (size_t v = 0; v < posBuf.size() / 3; v++) {
+        if (posBuf[3 * v + 0] < min.x) min.x = posBuf[3 * v + 0];
+        if (posBuf[3 * v + 0] > max.x) max.x = posBuf[3 * v + 0];
+
+        if (posBuf[3 * v + 1] < min.y) min.y = posBuf[3 * v + 1];
+        if (posBuf[3 * v + 1] > max.y) max.y = posBuf[3 * v + 1];
+
+        if (posBuf[3 * v + 2] < min.z) min.z = posBuf[3 * v + 2];
+        if (posBuf[3 * v + 2] > max.z) max.z = posBuf[3 * v + 2];
+    }
+    
+    bounds = new Bounds(min, max);
 }
 
 //BoundingBoxComponent *Shape::getBoundingBoxWithTransform(const mat4 transform) {

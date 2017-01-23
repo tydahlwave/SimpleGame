@@ -9,9 +9,13 @@
 #ifndef Texture_h
 #define Texture_h
 
-class Texture : Object {
+class Texture {
 public:
+    Texture() {};
+    virtual ~Texture() {};
     
+//    static void InitializeTextures();
+//    static Texture *texture1;
 };
 
 #endif /* Texture_h */

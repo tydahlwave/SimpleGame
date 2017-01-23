@@ -6,14 +6,31 @@
 //
 //
 
+#include <iostream>
 #include <vector>
 
 #include "Time.h"
 #include "Window.h"
 #include "World.h"
 #include "GameObject.h"
+#include "Mesh.h"
+#include "Material.h"
+#include "Shader.h"
+
+static std::string resourceDir;
 
 int main(int argc, char **argv) {
+    if (argc != 2) {
+        std::cout << "Incorrect format" << std::endl;
+        std::cout << "Expect: program [RESOURCE_DIR]" << std::endl;
+        return 0;
+    }
+    resourceDir = argv[1];
+    
+    // Initialization
+    Mesh::LoadMeshes(resourceDir);
+    Shader::LoadShaders(resourceDir);
+    Material::InitializeMaterials();
     
     // Init window
     // Load models

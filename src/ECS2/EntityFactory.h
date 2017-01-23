@@ -17,6 +17,7 @@ public:
     static GameObject *createMainCamera(World *world);
     static GameObject *createBunny(World *world);
     static GameObject *createGround(World *world);
+    static GameObject *createBarrier(World *world);
 };
 
 #endif /* EntityFactory_h */

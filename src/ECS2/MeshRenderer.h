@@ -20,9 +20,9 @@ public:
     MeshRenderer(Mesh *m, Material *mat, Shader *s) :MeshRenderer() { mesh = m; material = mat; shader = s; }
     virtual ~MeshRenderer() {};
     
-    Mesh *mesh;
-    Material *material;
-    Shader *shader;
+    Mesh *mesh = nullptr;
+    Material *material = nullptr;
+    Shader *shader = nullptr;
 };
 
 #endif /* MeshRenderer_h */

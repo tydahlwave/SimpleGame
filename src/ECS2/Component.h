@@ -22,7 +22,7 @@ public:
     Component(GameObject* go) :Component() { gameObject = go; };
     virtual ~Component() {};
     
-    GameObject *gameObject;
+    GameObject *gameObject = nullptr;
 };
 
 #endif /* Component_h */

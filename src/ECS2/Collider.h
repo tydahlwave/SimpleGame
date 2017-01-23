@@ -13,7 +13,7 @@
 //#include "RigidBody.h"
 
 class Collider : public Component {
-public:
+protected:
     Collider() { name = "Collider"; };
     virtual ~Collider() {};
     

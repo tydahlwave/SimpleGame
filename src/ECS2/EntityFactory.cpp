@@ -15,14 +15,14 @@
 GameObject *EntityFactory::createMainCamera(World *world) {
     GameObject *gameObject = new GameObject("MainCamera");
     gameObject->AddComponent("Camera");
-    gameObject->AddComponent("Collider");
+    gameObject->AddComponent("BoxCollider");
     gameObject->world = world;
     return gameObject;
 }
 
 GameObject *EntityFactory::createBunny(World *world) {
     GameObject *gameObject = new GameObject("Bunny");
-    gameObject->AddComponent("Collider");
+    gameObject->AddComponent("BoxCollider");
     MeshRenderer *meshRenderer = (MeshRenderer*) gameObject->AddComponent("MeshRenderer");
 //    meshRenderer->mesh;
     gameObject->world = world;
@@ -31,8 +31,15 @@ GameObject *EntityFactory::createBunny(World *world) {
 
 GameObject *EntityFactory::createGround(World *world) {
     GameObject *gameObject = new GameObject("Ground");
-    gameObject->AddComponent("Collider");
+    gameObject->AddComponent("BoxCollider");
     gameObject->AddComponent("MeshRenderer");
+    gameObject->world = world;
+    return gameObject;
+}
+
+GameObject *EntityFactory::createBarrier(World *world) {
+    GameObject *gameObject = new GameObject("Barrier");
+    gameObject->AddComponent("BoxCollider");
     gameObject->world = world;
     return gameObject;
 }
