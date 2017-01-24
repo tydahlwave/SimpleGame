@@ -34,12 +34,12 @@ void handleInput(int argc, char **argv) {
     resourceDir = argv[1];
 }
 
-void displayStats(long frameTime, World &world, Physics &physics) {
-    static long elapsedTime = 500;
+void displayStats(float deltaTime, World &world, Physics &physics) {
+    static float elapsedTime = 0.5;
     static long frames = 0;
-    elapsedTime += frameTime;
+    elapsedTime += deltaTime;
     frames++;
-    if (elapsedTime > 1000) {
+    if (elapsedTime > 1.0) {
         elapsedTime = 0;
         int bunnyCount = 0;
         int groundedObjectsCount = 0;
