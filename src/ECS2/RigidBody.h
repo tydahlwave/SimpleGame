@@ -20,6 +20,7 @@ public:
     glm::vec3 velocity = glm::vec3(0, 0, 0);
     glm::vec3 acceleration = glm::vec3(0, 0, 0);
     bool useGravity = false;
+    bool isKinematic = false; // Kinematic objects are not affected by forces/physics
 };
 
 #endif /* RigidBody_h */

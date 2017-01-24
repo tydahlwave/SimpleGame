@@ -20,6 +20,7 @@
 #include "Physics.h"
 #include "Renderer.h"
 #include "CameraController.h"
+#include "RigidBody.h"
 
 static std::string resourceDir;
 
@@ -36,6 +37,8 @@ void spawnBunnies(World &world, long curTime, long *elapsedTime) {
     if (curTime - *elapsedTime >= 3000) {
         GameObject *bunny = EntityFactory::createBunny(&world);
 //        bunny->transform->position = vec3(0, -1, -1);
+        RigidBody *rigidBody = (RigidBody*)bunny->GetComponent("RigidBody");
+        rigidBody->useGravity = true;
         *elapsedTime = curTime;
     }
 }
@@ -70,13 +73,13 @@ int main(int argc, char **argv) {
     // Game loop
     while (!window.ShouldClose()) {
         long curTime = Time::Now();
-        std::cout << "Frame time = " << curTime - oldTime << std::endl;
+//        std::cout << "Frame time = " << curTime - oldTime << std::endl;
         int dt = curTime - oldTime;
         
         spawnBunnies(world, curTime, &elapsedTime);
         
         cameraController.Update(world);
-//        physics.Update(world);
+        physics.Update(world);
         renderer.Render(world, window);
         window.Update();
         

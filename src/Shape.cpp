@@ -269,37 +269,3 @@ void Shape::computeBounds() {
     
     bounds = new Bounds(min, max);
 }
-
-//BoundingBoxComponent *Shape::getBoundingBoxWithTransform(const mat4 transform) {
-//    vec3 min = boundingBox.min;
-//    vec3 max = boundingBox.max;
-//    
-//    vec4 corners[8];
-//    corners[0] = transform * vec4(min[0], min[1], min[2], 1);
-//    corners[1] = transform * vec4(min[0], min[1], max[2], 1);
-//    corners[2] = transform * vec4(min[0], max[1], min[2], 1);
-//    corners[3] = transform * vec4(min[0], max[1], max[2], 1);
-//    corners[4] = transform * vec4(max[0], min[1], min[2], 1);
-//    corners[5] = transform * vec4(max[0], min[1], max[2], 1);
-//    corners[6] = transform * vec4(max[0], max[1], min[2], 1);
-//    corners[7] = transform * vec4(max[0], max[1], max[2], 1);
-//    vec4 newMin(corners[0].x, corners[0].y, corners[0].z, corners[0].w);
-//    vec4 newMax(corners[0].x, corners[0].y, corners[0].z, corners[0].w);
-//    
-//    // Recompute max and min
-//    for (int i = 0; i < 3; i++) {
-//        for (int j = 1; j < 8; j++) {
-//            if (corners[j][i] < newMin[i]) {
-//                newMin[i] = corners[j][i];
-//            }
-//            if (corners[j][i] > newMax[i]) {
-//                newMax[i] = corners[j][i];
-//            }
-//        }
-//    }
-//    
-//    BoundingBoxComponent *bb = new BoundingBoxComponent();
-//    bb->min = newMin;
-//    bb->max = newMax;
-//    return bb;
-//}

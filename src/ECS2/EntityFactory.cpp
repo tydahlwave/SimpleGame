@@ -11,10 +11,12 @@
 #include "Collider.h"
 #include "Camera.h"
 #include "MeshRenderer.h"
+#include "RigidBody.h"
 
 GameObject *EntityFactory::createMainCamera(World *world) {
     GameObject *gameObject = world->CreateGameObject("MainCamera");
-    gameObject->AddComponent("RigidBody");
+    RigidBody *rigidBody = (RigidBody*)gameObject->AddComponent("RigidBody");
+    rigidBody->isKinematic = true;
     gameObject->AddComponent("Camera");
     gameObject->AddComponent("BoxCollider");
     return gameObject;

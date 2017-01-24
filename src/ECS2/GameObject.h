@@ -20,6 +20,7 @@
 
 class World;
 class Transform;
+class Component;
 
 class GameObject : public Object {
 public:
