@@ -26,12 +26,14 @@ public:
     virtual ~Physics() {};
     
     glm::vec3 gravity = glm::vec3(0, -0.01, 0);
+    int bunniesCollected = 0;
     
     void Update(World &world);
+    Bounds *BoundsForGameObject(GameObject *gameObject);
 private:
     void ComputeCollisions(World &world);
     void ResolveCollisions(std::vector<Collision> collisions);
-    Bounds *BoundsForGameObject(GameObject *gameObject);
+//    Bounds *BoundsForGameObject(GameObject *gameObject);
 };
 
 #endif /* Physics_h */

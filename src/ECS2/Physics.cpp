@@ -14,8 +14,6 @@
 #include "SphereCollider.h"
 #include "MeshRenderer.h"
 
-int bunniesCollected = 0;
-
 void Physics::Update(World &world) {
     for (GameObject *gameObject : world.GetGameObjects()) {
         RigidBody *rigidBody = (RigidBody*)gameObject->GetComponent("RigidBody");
@@ -73,7 +71,7 @@ void Physics::ResolveCollisions(std::vector<Collision> collisions) {
                 meshRenderer->material = Material::pearl;
                 rigidBody2->isKinematic = true;
                 bunniesCollected += 1;
-                std::cout << "Bunnies Collected: " << bunniesCollected << std::endl;
+//                std::cout << "Bunnies Collected: " << bunniesCollected << std::endl;
             }
         } else if (collision.gameObject2->name.compare("MainCamera") == 0 && collision.gameObject1->name.compare("Bunny") == 0) {
             MeshRenderer *meshRenderer = (MeshRenderer*)collision.gameObject1->GetComponent("MeshRenderer");
@@ -81,7 +79,7 @@ void Physics::ResolveCollisions(std::vector<Collision> collisions) {
                 meshRenderer->material = Material::pearl;
                 rigidBody2->isKinematic = true;
                 bunniesCollected += 1;
-                std::cout << "Bunnies Collected: " << bunniesCollected << std::endl;
+//                std::cout << "Bunnies Collected: " << bunniesCollected << std::endl;
             }
         }
         

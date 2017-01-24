@@ -13,8 +13,6 @@
 #include "Camera.h"
 #include "RigidBody.h"
 
-#define CAMERA_SPEED 0.2
-#define CAMERA_STOPPED_THRESHOLD 0.1
 //#ifndef M_PI
 //#define M_PI 3.14159265358979323846
 //#endif
@@ -25,11 +23,11 @@ void CameraController::Update(World &world) {
     glm::vec3 gaze = camera->lookAt - world.mainCamera->transform->position;
     glm::vec3 w = normalize(-gaze);
     glm::vec3 u = normalize(cross(camera->up, w));
-    if (abs(rigidBody->velocity[2]) > CAMERA_STOPPED_THRESHOLD) {
+    if (abs(rigidBody->velocity[2]) > cameraStoppedThreshold) {
         world.mainCamera->transform->position += rigidBody->velocity[2] * w;
         camera->lookAt += rigidBody->velocity[2] * w;
     }
-    if (abs(rigidBody->velocity[0]) > CAMERA_STOPPED_THRESHOLD) {
+    if (abs(rigidBody->velocity[0]) > cameraStoppedThreshold) {
         world.mainCamera->transform->position += rigidBody->velocity[0] * u;
         camera->lookAt += rigidBody->velocity[0] * u;
     }
@@ -37,43 +35,61 @@ void CameraController::Update(World &world) {
 
 void CameraController::KeyPressed(World *world, int windowWidth, int windowHeight, int key, int action) {
     RigidBody *rigidBody = (RigidBody*)world->mainCamera->GetComponent("RigidBody");
-
+    
     if (action == GLFW_PRESS) {
+        if (key == GLFW_KEY_LEFT_SHIFT) {
+            cameraSpeed = 0.6;
+        }
         if (key == GLFW_KEY_W) {
-            rigidBody->velocity[2] = -CAMERA_SPEED;
+            rigidBody->velocity[2] = -cameraSpeed;
         } else if (key == GLFW_KEY_S) {
-            rigidBody->velocity[2] = CAMERA_SPEED;
+            rigidBody->velocity[2] = cameraSpeed;
         } else if (key == GLFW_KEY_A) {
-            rigidBody->velocity[0] = -CAMERA_SPEED;
+            rigidBody->velocity[0] = -cameraSpeed;
         } else if (key == GLFW_KEY_D) {
-            rigidBody->velocity[0] = CAMERA_SPEED;
+            rigidBody->velocity[0] = cameraSpeed;
         }
     } else if (action == GLFW_RELEASE) {
+        if (key == GLFW_KEY_LEFT_SHIFT) {
+            cameraSpeed = 0.2;
+        }
         if (key == GLFW_KEY_W) {
-            if (rigidBody->velocity[2] < -CAMERA_STOPPED_THRESHOLD) {
+            if (rigidBody->velocity[2] < -cameraStoppedThreshold) {
                 rigidBody->velocity[2] = 0;
             } else {
-                rigidBody->velocity[2] = CAMERA_SPEED;
+                rigidBody->velocity[2] = cameraSpeed;
             }
         } else if (key == GLFW_KEY_S) {
-            if (rigidBody->velocity[2] > CAMERA_STOPPED_THRESHOLD) {
+            if (rigidBody->velocity[2] > cameraStoppedThreshold) {
                 rigidBody->velocity[2] = 0;
             } else {
-                rigidBody->velocity[2] = -CAMERA_SPEED;
+                rigidBody->velocity[2] = -cameraSpeed;
             }
         } else if (key == GLFW_KEY_A) {
-            if (rigidBody->velocity[0] < -CAMERA_STOPPED_THRESHOLD) {
+            if (rigidBody->velocity[0] < -cameraStoppedThreshold) {
                 rigidBody->velocity[0] = 0;
             } else {
-                rigidBody->velocity[0] = CAMERA_SPEED;
+                rigidBody->velocity[0] = cameraSpeed;
             }
         } else if (key == GLFW_KEY_D) {
-            if (rigidBody->velocity[0] > CAMERA_STOPPED_THRESHOLD) {
+            if (rigidBody->velocity[0] > cameraStoppedThreshold) {
                 rigidBody->velocity[0] = 0;
             } else {
-                rigidBody->velocity[0] = -CAMERA_SPEED;
+                rigidBody->velocity[0] = -cameraSpeed;
             }
         }
+    }
+    
+    // Update current camera velocity to match the camera speed variable
+    if (rigidBody->velocity.x > 0.01) {
+        rigidBody->velocity.x = cameraSpeed;
+    } else if (rigidBody->velocity.x < -0.01) {
+        rigidBody->velocity.x = -cameraSpeed;
+    }
+    if (rigidBody->velocity.z > 0.01) {
+        rigidBody->velocity.z = cameraSpeed;
+    } else if (rigidBody->velocity.z < -0.01) {
+        rigidBody->velocity.z = -cameraSpeed;
     }
 }
 

@@ -25,6 +25,8 @@ public:
 private:
     float alpha = -M_PI/2;
     float beta = -M_PI/2*3;
+    float cameraSpeed = 0.2;
+    float cameraStoppedThreshold = 0.1;
 };
 
 #endif /* CameraController_h */

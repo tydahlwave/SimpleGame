@@ -34,15 +34,39 @@ void handleInput(int argc, char **argv) {
     resourceDir = argv[1];
 }
 
-//void spawnBunnies(World &world, long curTime, long *elapsedTime) {
-//    if (curTime - *elapsedTime >= 3000) {
-//        GameObject *bunny = EntityFactory::createBunny(&world);
-////        bunny->transform->position = vec3(0, -1, -1);
-//        RigidBody *rigidBody = (RigidBody*)bunny->GetComponent("RigidBody");
-//        rigidBody->useGravity = true;
-//        *elapsedTime = curTime;
-//    }
-//}
+void displayStats(long frameTime, World &world, Physics &physics) {
+    static long elapsedTime = 500;
+    static long frames = 0;
+    elapsedTime += frameTime;
+    frames++;
+    if (elapsedTime > 1000) {
+        elapsedTime = 0;
+        int bunnyCount = 0;
+        int groundedObjectsCount = 0;
+        GameObject *ground;
+        for (GameObject *gameObject : world.GetGameObjects()) {
+            if (gameObject->name.compare("Ground")) {
+                ground = gameObject;
+                break;
+            }
+        }
+        for (GameObject *gameObject : world.GetGameObjects()) {
+            if (gameObject->name.compare("Bunny") == 0) {
+                bunnyCount++;
+                RigidBody *rigidBody = (RigidBody*)gameObject->GetComponent("RigidBody");
+                if (abs(rigidBody->velocity.y) < 0.01) {
+                    groundedObjectsCount++;
+                }
+            }
+        }
+        std::cout << "FPS: " << frames << std::endl;
+        std::cout << "Game Objects: " << world.GetGameObjects().size() << std::endl;
+        std::cout << "Bunnies: " << bunnyCount << std::endl;
+        std::cout << "Objects on Ground: " << groundedObjectsCount << std::endl;
+        std::cout << "Bunnies Collected: " << physics.bunniesCollected << std::endl;
+        frames = 0;
+    }
+}
 
 int main(int argc, char **argv) {
     handleInput(argc, argv);
@@ -63,7 +87,11 @@ int main(int argc, char **argv) {
     // Create ground
     GameObject *ground = EntityFactory::createGround(&world);
     ground->transform->position.y -= 2;
-    ground->transform->scale = vec3(50, 1, 50);
+    ground->transform->scale = glm::vec3(50, 1, 50);
+    
+//    GameObject *barrier = EntityFactory::createBarrier(&world);
+//    barrier->transform->position = glm::vec3();
+//    barrier->transform->scale = glm::vec3(5, 5, 5);
     
     // Seed random generator
     srand(time(0));
@@ -71,11 +99,14 @@ int main(int argc, char **argv) {
     // Init times
     long oldTime = Time::Now();
     
+    std::cout << "Bunnies Collected: 0" << std::endl;
+    
     // Game loop
     while (!window.ShouldClose()) {
         long curTime = Time::Now();
-//        std::cout << "Frame time = " << curTime - oldTime << std::endl;
         long deltaTime = curTime - oldTime;
+        
+        displayStats(deltaTime, world, physics);
         
         cameraController.Update(world);
         bunnySpawnSystem.Update(deltaTime, &world);
