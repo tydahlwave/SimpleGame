@@ -23,8 +23,8 @@ public:
     void KeyPressed(World *world, int windowWidth, int windowHeight, int key, int action);
     void MouseMoved(World *world, int windowWidth, int windowHeight, double mouseX, double mouseY);
 private:
-    float alpha = 0;
-    float beta = -M_PI/2;
+    float alpha = -M_PI/2;
+    float beta = -M_PI/2*3;
 };
 
 #endif /* CameraController_h */
