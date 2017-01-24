@@ -26,12 +26,10 @@ public:
         MatrixStack stack = MatrixStack();
         stack.loadIdentity();
         stack.translate(position);
-//        stack.scale(scale);
-        stack.rotate(rotation.x, glm::vec3(1, 0, 0));
-        stack.rotate(rotation.y, glm::vec3(0, 1, 0));
-        stack.rotate(rotation.z, glm::vec3(0, 0, 1));
+        stack.rotate(rotation.x/180*M_PI, glm::vec3(1, 0, 0));
+        stack.rotate(rotation.y/180*M_PI, glm::vec3(0, 1, 0));
+        stack.rotate(rotation.z/180*M_PI, glm::vec3(0, 0, 1));
         stack.scale(scale);
-//        stack.translate(position);
         return stack.topMatrix();
     }
 };

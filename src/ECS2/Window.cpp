@@ -92,7 +92,7 @@ int Window::Initialize() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
     
     // Create a windowed mode window and its OpenGL context.
-    window = glfwCreateWindow(640, 480, "Tyler's Awesome Window", NULL, NULL);
+    window = glfwCreateWindow(960, 720, "Tyler's Awesome Window", NULL, NULL);
     if(!window) {
         glfwTerminate();
         return -1;

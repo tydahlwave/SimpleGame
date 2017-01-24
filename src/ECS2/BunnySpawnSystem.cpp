@@ -18,8 +18,8 @@ void BunnySpawnSystem::Update(long frameTime, World *world) {
         elapsedTime = 0;
         GameObject *bunny = EntityFactory::createBunny(world);
         int randomAngle = rand() % 360;
-        float velX = cos(randomAngle);
-        float velY = sin(randomAngle);
+        float velX = cos(randomAngle/180.0*M_PI);
+        float velY = sin(randomAngle/180.0*M_PI);
         glm::vec3 vel = normalize(glm::vec3(velX, 0, velY)) / glm::vec3(20, 20, 20);
         RigidBody *rigidBody = (RigidBody*)bunny->GetComponent("RigidBody");
         
@@ -70,7 +70,7 @@ void BunnySpawnSystem::Update(long frameTime, World *world) {
         bunny->transform->position = randPosition;
         rigidBody->velocity -= vel;
         rigidBody->useGravity = true;
-        bunny->transform->rotation = vec3(0, (float)-(randomAngle), 0);
+        bunny->transform->rotation = vec3(0, -randomAngle, 0);
         bunnies.push_back(bunny);
     }
 }

@@ -31,6 +31,10 @@ void CameraController::Update(World &world) {
         world.mainCamera->transform->position += rigidBody->velocity[0] * u;
         camera->lookAt += rigidBody->velocity[0] * u;
     }
+    
+    if (world.mainCamera->transform->position.y < -1.99) {
+        world.mainCamera->transform->position.y = -1.99;
+    }
 }
 
 void CameraController::KeyPressed(World *world, int windowWidth, int windowHeight, int key, int action) {
