@@ -67,8 +67,6 @@ int BunnySpawnSystem::spawnBunny(World &world) {
 	}
 
 
-	//Reconcile collisions
-	//TBD
 
 	if (bunny != -1)
 	{

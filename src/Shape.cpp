@@ -185,12 +185,14 @@ void Shape::computeBoundingBox() {
     boundingBox.min = vec3(minX, minY, minZ);
     boundingBox.max = vec3(maxX, maxY, maxZ);
 
-	/*cout << boundingBox.mins.x;
-	cout << boundingBox.mins.y;
-	cout << boundingBox.mins.z;
-	cout << boundingBox.maxes.x;
-	cout << boundingBox.maxes.y;
-	cout << boundingBox.maxes.z;*/
+	/*cout << boundingBox.min.x;
+	cout << boundingBox.min.y;
+	cout << boundingBox.min.z;
+	cout << boundingBox.max.x;
+	cout << boundingBox.max.y;
+	cout << boundingBox.max.z;*/
+
+	
 
 }
 
@@ -291,6 +293,7 @@ BoundingBoxComponent *Shape::getBoundingBoxWithTransform(const mat4 transform) {
     vec3 max = boundingBox.max;
     
     vec4 corners[8];
+
     corners[0] = transform * vec4(min[0], min[1], min[2], 1);
     corners[1] = transform * vec4(min[0], min[1], max[2], 1);
     corners[2] = transform * vec4(min[0], max[1], min[2], 1);

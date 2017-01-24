@@ -62,6 +62,29 @@ void CollisionSystem::checkCollision(World &world, RenderSystem &renderSystem, v
                 }
             }
         }
+
+		// If bunny on edge
+		if((bb1->min.x <= bb2->min.x || bb1->max.x >= bb2->max.x) ||
+			(bb1->min.z <= bb2->min.z && bb1->max.z >= bb2->max.z)) {
+
+
+			if (entityName1.compare("rect") == 0) {
+				if (entityName2.compare("bunny") == 0) {
+
+					world.velocity[entity2].value.x = -world.velocity[entity2].value.x;
+					world.velocity[entity2].value.z = -world.velocity[entity2].value.z;
+					std::cout << "Reverse" << std::endl;
+				}
+			}
+			else if (entityName1.compare("bunny") == 0) {
+				if (entityName2.compare("rect") == 0) {
+
+					world.velocity[entity1].value.x = -world.velocity[entity1].value.x;
+					world.velocity[entity1].value.z = -world.velocity[entity1].value.z;
+					std::cout << "Reverse" << std::endl;
+				}
+			}
+		}
     }
 }
 
@@ -77,6 +100,7 @@ void CollisionSystem::checkCameraCollision(World &world, RenderSystem &renderSys
             (world.camera.pos.z >= bb->min.z && world.camera.pos.z <= bb->max.z)) {
             // If collided with bunny, remove its velocity component
             if (entityName.compare("bunny") == 0) {
+				std::cout << "Camera collided w bunny" << std::endl;
                 world.entity[entity] &= ~COMP_VELOCITY;
             }
         }

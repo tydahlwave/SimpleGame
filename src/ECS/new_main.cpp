@@ -31,7 +31,7 @@
 using namespace std;
 using namespace glm;
 
-string RESOURCE_DIR = "../../resources/"; // Where the resources are loaded from
+string RESOURCE_DIR = "./resources/"; // Where the resources are loaded from
 
 static void init(RenderSystem &renderer, ShaderSystem &shader)
 {
