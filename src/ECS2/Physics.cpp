@@ -30,12 +30,18 @@ void Physics::Update(World &world) {
 
 void Physics::ComputeCollisions(World &world) {
     std::vector<Collision> collisions;
-    for (GameObject *gameObject1 : world.GetGameObjects()) {
+    std::vector<GameObject*> gameObjects = world.GetGameObjects();
+    // Only test for collision between 2 objects once
+    for (int i = 0; i < gameObjects.size(); i++) {
+        GameObject *gameObject1 = gameObjects[i];
+    //for (GameObject *gameObject1 : world.GetGameObjects()) {
         // Get bounds for first object
         Bounds *bounds1 = BoundsForGameObject(gameObject1);
         // If the first object is not collidable, continue
         if (!bounds1) continue;
-        for (GameObject *gameObject2 : world.GetGameObjects()) {
+        for (int j = i+1; j < gameObjects.size(); j++) {
+            GameObject *gameObject2 = gameObjects[j];
+        //for (GameObject *gameObject2 : world.GetGameObjects()) {
             // Don't compute collision with self
             if (gameObject2 == gameObject1) continue;
             // Get bounds for second object
