@@ -16,8 +16,13 @@
 
 #include "glm/glm.hpp"
 #include "World.h"
+#include "WindowCallbackDelegate.h"
 
-typedef void (*MouseCallback)(double, double);
+typedef void (*MouseCallback)(int, int, double, double); // windowWidth, windowHeight, mouseX, mouseY
+
+struct WindowSize {
+    int width, height;
+};
 
 class Window {
 public:
@@ -36,10 +41,11 @@ public:
     void PollEvents();
     static void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods);
     static void MouseMoveCallback(GLFWwindow *window, double posX, double posY);
+    static void AddWindowCallbackDelegate(WindowCallbackDelegate *delegate);
 private:
     GLFWwindow *window; // Main application window
     static World *world;
-    std::vector<MouseCallback> mouseMoveCallbacks;
+    static std::vector<WindowCallbackDelegate*> windowCallbackDelegates;
 };
 
 #endif /* Window_h */

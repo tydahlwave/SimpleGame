@@ -14,6 +14,7 @@
 
 GameObject *EntityFactory::createMainCamera(World *world) {
     GameObject *gameObject = world->CreateGameObject("MainCamera");
+    gameObject->AddComponent("RigidBody");
     gameObject->AddComponent("Camera");
     gameObject->AddComponent("BoxCollider");
     return gameObject;
@@ -21,6 +22,7 @@ GameObject *EntityFactory::createMainCamera(World *world) {
 
 GameObject *EntityFactory::createBunny(World *world) {
     GameObject *gameObject = world->CreateGameObject("Bunny");
+    gameObject->AddComponent("RigidBody");
     gameObject->AddComponent("BoxCollider");
     MeshRenderer *meshRenderer = (MeshRenderer*) gameObject->AddComponent("MeshRenderer");
     meshRenderer->mesh = Mesh::bunny;

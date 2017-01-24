@@ -20,5 +20,6 @@ std::vector<GameObject*> World::GetGameObjects() {
 GameObject *World::CreateGameObject(std::string name) {
     GameObject *gameObject = new GameObject(name);
     gameObject->world = this;
+    gameObjects.push_back(gameObject);
     return gameObject;
 }

@@ -25,7 +25,7 @@ public:
     
     ProjectionType projectionType = Perspective;
     float near = 1;
-    float far = 100;
+    float far = 1000;
     float fov = 45.0f; // field of view
     glm::vec3 lookAt = glm::vec3(0, 0, -1);
     glm::vec3 up = glm::vec3(0, 1, 0);

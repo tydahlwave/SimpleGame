@@ -7,6 +7,7 @@
 //
 
 // value_ptr for glm
+#include <iostream>
 #include <glm/gtc/type_ptr.hpp>
 #include "../GLSL.h"
 
@@ -21,7 +22,7 @@ Renderer::Renderer() {
 void applyProjectionMatrix(Program *program, Window &window, Camera *camera) {
     MatrixStack stack = MatrixStack();
     float aspectRatio = window.GetWidth()/(float)window.GetHeight();
-    stack.perspective(camera->fov, aspectRatio, camera->near, camera->far);
+    stack.perspective(45.0f, aspectRatio, 0.01f, 100.0f);
     glUniformMatrix4fv(program->getUniform("P"), 1, GL_FALSE, value_ptr(stack.topMatrix()));
 }
 
@@ -54,6 +55,9 @@ void Renderer::Initialize() {
 }
 
 void Renderer::Render(World &world, Window &window) {
+    glViewport(0, 0, window.GetWidth(), window.GetHeight());
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
     for (GameObject *gameObject : world.GetGameObjects()) {
         MeshRenderer *meshRenderer = (MeshRenderer*)gameObject->GetComponent("MeshRenderer");
         if (meshRenderer) {
@@ -69,7 +73,7 @@ void Renderer::Render(World &world, Window &window) {
             
             Camera *camera = (Camera*)world.mainCamera->GetComponent("Camera");
             applyProjectionMatrix(shader, window, camera);
-            applyCameraMatrix(shader, camera, gameObject->transform->position);
+            applyCameraMatrix(shader, camera, world.mainCamera->transform->position);
             applyTransformMatrix(shader, gameObject->transform);
             
             mesh->draw(shader);

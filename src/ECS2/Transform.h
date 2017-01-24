@@ -24,10 +24,11 @@ public:
     
     const glm::mat4 &GetMatrix() {
         MatrixStack stack = MatrixStack();
+        stack.loadIdentity();
         stack.translate(position);
         stack.rotate(rotation.x, glm::vec3(1, 0, 0));
-        stack.rotate(rotation.x, glm::vec3(1, 0, 0));
-        stack.rotate(rotation.x, glm::vec3(1, 0, 0));
+        stack.rotate(rotation.y, glm::vec3(0, 1, 0));
+        stack.rotate(rotation.z, glm::vec3(0, 0, 1));
         stack.scale(scale);
         return stack.topMatrix();
     }

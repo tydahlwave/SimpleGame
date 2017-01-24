@@ -19,6 +19,7 @@
 #include "EntityFactory.h"
 #include "Physics.h"
 #include "Renderer.h"
+#include "CameraController.h"
 
 static std::string resourceDir;
 
@@ -32,10 +33,9 @@ void handleInput(int argc, char **argv) {
 }
 
 void spawnBunnies(World &world, long curTime, long *elapsedTime) {
-    if (curTime - *elapsedTime >= 3000)
-    {
-        //            int bunny = spawner.spawnBunny(world);
+    if (curTime - *elapsedTime >= 3000) {
         GameObject *bunny = EntityFactory::createBunny(&world);
+//        bunny->transform->position = vec3(0, -1, -1);
         *elapsedTime = curTime;
     }
 }
@@ -47,11 +47,18 @@ int main(int argc, char **argv) {
     Window window = Window(&world);
     Physics physics = Physics();
     Renderer renderer = Renderer();
+    CameraController cameraController = CameraController();
     
-    // Initialization
+    // Static Initializers
     Mesh::LoadMeshes(resourceDir);
     Shader::LoadShaders(resourceDir);
     Material::InitializeMaterials();
+    Window::AddWindowCallbackDelegate((WindowCallbackDelegate*)&cameraController);
+    
+    // Create ground
+    GameObject *ground = EntityFactory::createGround(&world);
+    ground->transform->position.y -= 2;
+    ground->transform->scale = vec3(50, 1, 50);
     
     // Seed random generator
     srand(time(0));
@@ -68,12 +75,10 @@ int main(int argc, char **argv) {
         
         spawnBunnies(world, curTime, &elapsedTime);
         
-        physics.Update(world);
+        cameraController.Update(world);
+//        physics.Update(world);
         renderer.Render(world, window);
         window.Update();
-        
-        // Update camera;
-//        world.camera.update();
         
         // Reset current frame time
         oldTime = curTime;

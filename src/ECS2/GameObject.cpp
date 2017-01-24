@@ -51,6 +51,7 @@ Component *GameObject::AddComponent(std::string name) {
             component = nullptr;
             std::cout << name << " component does not exist." << std::endl;
         }
+        component->gameObject = this;
         components[name] = component;
         return component;
     } else {
