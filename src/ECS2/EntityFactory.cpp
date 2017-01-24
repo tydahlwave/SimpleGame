@@ -19,6 +19,7 @@ GameObject *EntityFactory::createMainCamera(World *world) {
     rigidBody->isKinematic = true;
     gameObject->AddComponent("Camera");
     gameObject->AddComponent("BoxCollider");
+    gameObject->transform->scale = glm::vec3(0.2, 0.2, 0.2);
     return gameObject;
 }
 

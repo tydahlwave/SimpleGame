@@ -45,8 +45,8 @@ void BunnySpawnSystem::Update(long frameTime, World *world) {
         //check if positions found
         while (!positionClear)
         {
-            randX = rand() % 100 - 50;
-            randZ = rand() % 100 - 50;
+            randX = rand() % 50 - 25;
+            randZ = rand() % 50 - 25;
             
             bool xFound = false;
             bool zFound = false;
@@ -70,7 +70,7 @@ void BunnySpawnSystem::Update(long frameTime, World *world) {
         bunny->transform->position = randPosition;
         rigidBody->velocity -= vel;
         rigidBody->useGravity = true;
-        bunny->transform->rotation += vec3(0, (float)-(randomAngle), 0);
+        bunny->transform->rotation = vec3(0, (float)-(randomAngle), 0);
         bunnies.push_back(bunny);
     }
 }

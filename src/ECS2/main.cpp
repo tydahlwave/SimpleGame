@@ -59,7 +59,7 @@ void displayStats(long frameTime, World &world, Physics &physics) {
                 }
             }
         }
-        std::cout << "FPS: " << frames << std::endl;
+        std::cout << "\nFPS: " << frames << std::endl;
         std::cout << "Game Objects: " << world.GetGameObjects().size() << std::endl;
         std::cout << "Bunnies: " << bunnyCount << std::endl;
         std::cout << "Objects on Ground: " << groundedObjectsCount << std::endl;
@@ -87,11 +87,20 @@ int main(int argc, char **argv) {
     // Create ground
     GameObject *ground = EntityFactory::createGround(&world);
     ground->transform->position.y -= 2;
-    ground->transform->scale = glm::vec3(50, 1, 50);
+    ground->transform->scale = glm::vec3(30, 1, 30);
     
-//    GameObject *barrier = EntityFactory::createBarrier(&world);
-//    barrier->transform->position = glm::vec3();
-//    barrier->transform->scale = glm::vec3(5, 5, 5);
+    GameObject *barrier1 = EntityFactory::createBarrier(&world);
+    barrier1->transform->position = glm::vec3(0, 0, -30);
+    barrier1->transform->scale = glm::vec3(50, 5, 1);
+    GameObject *barrier2 = EntityFactory::createBarrier(&world);
+    barrier2->transform->position = glm::vec3(0, 0, 30);
+    barrier2->transform->scale = glm::vec3(50, 5, 1);
+    GameObject *barrier3 = EntityFactory::createBarrier(&world);
+    barrier3->transform->position = glm::vec3(-30, 0, 0);
+    barrier3->transform->scale = glm::vec3(1, 5, 50);
+    GameObject *barrier4 = EntityFactory::createBarrier(&world);
+    barrier4->transform->position = glm::vec3(30, 0, 0);
+    barrier4->transform->scale = glm::vec3(1, 5, 50);
     
     // Seed random generator
     srand(time(0));

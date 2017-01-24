@@ -81,38 +81,63 @@ void Physics::ResolveCollisions(std::vector<Collision> collisions) {
                 bunniesCollected += 1;
 //                std::cout << "Bunnies Collected: " << bunniesCollected << std::endl;
             }
-        }
+        } else if (collision.gameObject1->name.compare("Barrier") == 0 && collision.gameObject2->name.compare("Bunny") == 0) {
+            rigidBody2->velocity.x *= -1;
+            rigidBody2->velocity.z *= -1;
+            collision.gameObject2->transform->position += rigidBody2->velocity * glm::vec3(10, 1, 10);
+            collision.gameObject2->transform->rotation.y -= 180;
+        } else if (collision.gameObject2->name.compare("Barrier") == 0 && collision.gameObject1->name.compare("Bunny") == 0) {
+            rigidBody1->velocity.x *= -1;
+            rigidBody1->velocity.z *= -1;
+            collision.gameObject1->transform->position += rigidBody1->velocity * glm::vec3(10, 1, 10);
+            collision.gameObject1->transform->rotation.y -= 180;
+        } else {
         
         if (rigidBody1 && rigidBody2 && !rigidBody1->isKinematic && !rigidBody2->isKinematic) {
             // TODO: don't just move up
             float dy;
             if (bounds2->max.y > bounds1->max.y) {
-                dy = bounds2->max.y - bounds1->min.y;
-            } else {
                 dy = bounds1->max.y - bounds2->min.y;
+                collision.gameObject2->transform->position += glm::vec3(0, dy, 0);
+                rigidBody1->velocity.y = 0;
+                rigidBody1->acceleration = glm::vec3(0, 0, 0);
+                rigidBody2->velocity.y = 0;
+                rigidBody2->acceleration = glm::vec3(0, 0, 0);
+            } else {
+                dy = bounds2->max.y - bounds1->min.y;
+                collision.gameObject1->transform->position += glm::vec3(0, dy, 0);
+                rigidBody2->velocity.y = 0;
+                rigidBody2->acceleration = glm::vec3(0, 0, 0);
+                rigidBody1->velocity.y = 0;
+                rigidBody1->acceleration = glm::vec3(0, 0, 0);
             }
-            collision.gameObject1->transform->position += glm::vec3(0, dy/2, 0);
-            rigidBody1->velocity.y = 0;
-            rigidBody1->acceleration = rigidBody1->acceleration / glm::vec3(2, 2, 2);
-            rigidBody1->acceleration.y = -rigidBody1->acceleration.y;
-            collision.gameObject2->transform->position += glm::vec3(0, -dy/2, 0);
-            rigidBody2->velocity.y = 0;
-            rigidBody2->acceleration = rigidBody2->acceleration / glm::vec3(2, 2, 2);
-            rigidBody2->acceleration.y = -rigidBody2->acceleration.y;
+//            collision.gameObject1->transform->position += glm::vec3(0, dy/2, 0);
+//            rigidBody1->velocity.y = 0;
+//            rigidBody1->acceleration = glm::vec3(0, 0, 0);
+//            rigidBody1->acceleration = rigidBody1->acceleration / glm::vec3(2, 2, 2);
+//            rigidBody1->acceleration.y = -rigidBody1->acceleration.y;
+//            collision.gameObject2->transform->position += glm::vec3(0, -dy/2, 0);
+//            rigidBody2->velocity.y = 0;
+//            rigidBody2->acceleration = glm::vec3(0, 0, 0);
+//            rigidBody2->acceleration = rigidBody2->acceleration / glm::vec3(2, 2, 2);
+//            rigidBody2->acceleration.y = -rigidBody2->acceleration.y;
         } else if (rigidBody1 && !rigidBody1->isKinematic) {
             // TODO: don't just move up
             float dy = bounds2->max.y - bounds1->min.y;
             collision.gameObject1->transform->position += glm::vec3(0, dy, 0);
             rigidBody1->velocity.y = 0;
-            rigidBody1->acceleration = rigidBody1->acceleration / glm::vec3(2, 2, 2);
-            rigidBody1->acceleration.y = -rigidBody1->acceleration.y;
+            rigidBody1->acceleration = glm::vec3(0, 0, 0);
+//            rigidBody1->acceleration = rigidBody1->acceleration / glm::vec3(2, 2, 2);
+//            rigidBody1->acceleration.y = -rigidBody1->acceleration.y;
         } else if (rigidBody2 && !rigidBody2->isKinematic) {
             // TODO: don't just move up
             float dy = bounds1->max.y - bounds2->min.y;
             collision.gameObject2->transform->position += glm::vec3(0, dy, 0);
             rigidBody2->velocity.y = 0;
-            rigidBody2->acceleration = rigidBody2->acceleration / glm::vec3(2, 2, 2);
-            rigidBody2->acceleration.y = -rigidBody2->acceleration.y;
+            rigidBody2->acceleration = glm::vec3(0, 0, 0);
+//            rigidBody2->acceleration = rigidBody2->acceleration / glm::vec3(2, 2, 2);
+//            rigidBody2->acceleration.y = -rigidBody2->acceleration.y;
+        }
         }
     }
 }
