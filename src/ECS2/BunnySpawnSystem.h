@@ -16,11 +16,11 @@ public:
     BunnySpawnSystem() {};
     virtual ~BunnySpawnSystem() {};
     
-    void Update(long frameTime, World *world);
+    void Update(float deltaTime, World *world);
 private:
     int maxEntities = 20;
-    long elapsedTime = 0;
-    long spawnRate = 2000; // 2 second per spawn
+    float elapsedTime = 0;
+    float spawnRate = 2.0; // 2 second per spawn
     std::vector<GameObject*> bunnies;
 };
 

@@ -14,13 +14,13 @@
 #include "SphereCollider.h"
 #include "MeshRenderer.h"
 
-void Physics::Update(World &world) {
+void Physics::Update(float deltaTime, World &world) {
     for (GameObject *gameObject : world.GetGameObjects()) {
         RigidBody *rigidBody = (RigidBody*)gameObject->GetComponent("RigidBody");
         if (rigidBody && rigidBody->useGravity && !rigidBody->isKinematic) {
-            glm::vec3 accel = rigidBody->acceleration;
-            glm::vec3 vel = rigidBody->velocity;
-            rigidBody->acceleration += gravity;
+            glm::vec3 accel = rigidBody->acceleration * deltaTime;
+            glm::vec3 vel = rigidBody->velocity * deltaTime;
+            rigidBody->acceleration += gravity * deltaTime;
             rigidBody->velocity += accel;
             gameObject->transform->position += vel;
         }
@@ -90,12 +90,12 @@ void Physics::ResolveCollisions(std::vector<Collision> collisions) {
         } else if (collision.gameObject1->name.compare("Barrier") == 0 && collision.gameObject2->name.compare("Bunny") == 0) {
             rigidBody2->velocity.x *= -1;
             rigidBody2->velocity.z *= -1;
-            collision.gameObject2->transform->position += rigidBody2->velocity * glm::vec3(10, 1, 10);
+            collision.gameObject2->transform->position += rigidBody2->velocity / 5.0f;
             collision.gameObject2->transform->rotation.y -= 180;
         } else if (collision.gameObject2->name.compare("Barrier") == 0 && collision.gameObject1->name.compare("Bunny") == 0) {
             rigidBody1->velocity.x *= -1;
             rigidBody1->velocity.z *= -1;
-            collision.gameObject1->transform->position += rigidBody1->velocity * glm::vec3(10, 1, 10);
+            collision.gameObject1->transform->position += rigidBody1->velocity / 5.0f;
             collision.gameObject1->transform->rotation.y -= 180;
         } else {
         

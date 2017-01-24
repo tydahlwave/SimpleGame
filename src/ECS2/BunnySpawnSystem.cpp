@@ -10,17 +10,17 @@
 #include "EntityFactory.h"
 #include "RigidBody.h"
 
-void BunnySpawnSystem::Update(long frameTime, World *world) {
+void BunnySpawnSystem::Update(float deltaTime, World *world) {
     if (bunnies.size() >= maxEntities) return;
     
-    elapsedTime += frameTime;
+    elapsedTime += deltaTime;
     if (elapsedTime > spawnRate) {
         elapsedTime = 0;
         GameObject *bunny = EntityFactory::createBunny(world);
         int randomAngle = rand() % 360;
         float velX = cos(randomAngle/180.0*M_PI);
         float velY = sin(randomAngle/180.0*M_PI);
-        glm::vec3 vel = normalize(glm::vec3(velX, 0, velY)) / glm::vec3(20, 20, 20);
+        glm::vec3 vel = normalize(glm::vec3(velX, 0, velY)) * 5.0f;
         RigidBody *rigidBody = (RigidBody*)bunny->GetComponent("RigidBody");
         
         float floatX[maxEntities];

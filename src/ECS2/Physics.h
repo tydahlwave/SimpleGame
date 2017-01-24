@@ -25,10 +25,10 @@ public:
     Physics() {};
     virtual ~Physics() {};
     
-    glm::vec3 gravity = glm::vec3(0, -0.01, 0);
+    glm::vec3 gravity = glm::vec3(0, -100, 0);
     int bunniesCollected = 0;
     
-    void Update(World &world);
+    void Update(float deltaTime, World &world);
     Bounds *BoundsForGameObject(GameObject *gameObject);
 private:
     void ComputeCollisions(World &world);

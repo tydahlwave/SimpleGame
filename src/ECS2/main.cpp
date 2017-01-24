@@ -113,13 +113,13 @@ int main(int argc, char **argv) {
     // Game loop
     while (!window.ShouldClose()) {
         long curTime = Time::Now();
-        long deltaTime = curTime - oldTime;
+        float deltaTime = (curTime - oldTime) / 1000.0f;
         
         displayStats(deltaTime, world, physics);
         
         cameraController.Update(world);
         bunnySpawnSystem.Update(deltaTime, &world);
-        physics.Update(world);
+        physics.Update(deltaTime, world);
         renderer.Render(world, window);
         window.Update();
         
