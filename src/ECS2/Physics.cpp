@@ -14,6 +14,8 @@
 #include "SphereCollider.h"
 #include "MeshRenderer.h"
 
+int bunniesCollected = 0;
+
 void Physics::Update(World &world) {
     for (GameObject *gameObject : world.GetGameObjects()) {
         RigidBody *rigidBody = (RigidBody*)gameObject->GetComponent("RigidBody");
@@ -45,7 +47,7 @@ void Physics::ComputeCollisions(World &world) {
             // Test for collision
             Bounds *intersection = bounds1->Intersection(bounds2);
             if (intersection) {
-                std::cout << gameObject1->name << " hit " << gameObject2->name << std::endl;
+//                std::cout << gameObject1->name << " hit " << gameObject2->name << std::endl;
                 Collision collision = Collision(gameObject1, gameObject2, intersection);
                 collisions.push_back(collision);
             }
@@ -64,6 +66,24 @@ void Physics::ResolveCollisions(std::vector<Collision> collisions) {
         // If there is no longer an intersection, continue
         Bounds *newIntersection = bounds1->Intersection(bounds2);
         if (!newIntersection) continue;
+        
+        if (collision.gameObject1->name.compare("MainCamera") == 0 && collision.gameObject2->name.compare("Bunny") == 0) {
+            MeshRenderer *meshRenderer = (MeshRenderer*)collision.gameObject2->GetComponent("MeshRenderer");
+            if (meshRenderer->material != Material::pearl) {
+                meshRenderer->material = Material::pearl;
+                rigidBody2->isKinematic = true;
+                bunniesCollected += 1;
+                std::cout << "Bunnies Collected: " << bunniesCollected << std::endl;
+            }
+        } else if (collision.gameObject2->name.compare("MainCamera") == 0 && collision.gameObject1->name.compare("Bunny") == 0) {
+            MeshRenderer *meshRenderer = (MeshRenderer*)collision.gameObject1->GetComponent("MeshRenderer");
+            if (meshRenderer->material != Material::pearl) {
+                meshRenderer->material = Material::pearl;
+                rigidBody2->isKinematic = true;
+                bunniesCollected += 1;
+                std::cout << "Bunnies Collected: " << bunniesCollected << std::endl;
+            }
+        }
         
         if (rigidBody1 && rigidBody2 && !rigidBody1->isKinematic && !rigidBody2->isKinematic) {
             // TODO: don't just move up

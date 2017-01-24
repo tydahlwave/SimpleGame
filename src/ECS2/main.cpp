@@ -21,6 +21,7 @@
 #include "Renderer.h"
 #include "CameraController.h"
 #include "RigidBody.h"
+#include "BunnySpawnSystem.h"
 
 static std::string resourceDir;
 
@@ -33,15 +34,15 @@ void handleInput(int argc, char **argv) {
     resourceDir = argv[1];
 }
 
-void spawnBunnies(World &world, long curTime, long *elapsedTime) {
-    if (curTime - *elapsedTime >= 3000) {
-        GameObject *bunny = EntityFactory::createBunny(&world);
-//        bunny->transform->position = vec3(0, -1, -1);
-        RigidBody *rigidBody = (RigidBody*)bunny->GetComponent("RigidBody");
-        rigidBody->useGravity = true;
-        *elapsedTime = curTime;
-    }
-}
+//void spawnBunnies(World &world, long curTime, long *elapsedTime) {
+//    if (curTime - *elapsedTime >= 3000) {
+//        GameObject *bunny = EntityFactory::createBunny(&world);
+////        bunny->transform->position = vec3(0, -1, -1);
+//        RigidBody *rigidBody = (RigidBody*)bunny->GetComponent("RigidBody");
+//        rigidBody->useGravity = true;
+//        *elapsedTime = curTime;
+//    }
+//}
 
 int main(int argc, char **argv) {
     handleInput(argc, argv);
@@ -51,6 +52,7 @@ int main(int argc, char **argv) {
     Physics physics = Physics();
     Renderer renderer = Renderer();
     CameraController cameraController = CameraController();
+    BunnySpawnSystem bunnySpawnSystem = BunnySpawnSystem();
     
     // Static Initializers
     Mesh::LoadMeshes(resourceDir);
@@ -68,17 +70,15 @@ int main(int argc, char **argv) {
     
     // Init times
     long oldTime = Time::Now();
-    long elapsedTime = oldTime;
     
     // Game loop
     while (!window.ShouldClose()) {
         long curTime = Time::Now();
 //        std::cout << "Frame time = " << curTime - oldTime << std::endl;
-        int dt = curTime - oldTime;
-        
-        spawnBunnies(world, curTime, &elapsedTime);
+        long deltaTime = curTime - oldTime;
         
         cameraController.Update(world);
+        bunnySpawnSystem.Update(deltaTime, &world);
         physics.Update(world);
         renderer.Render(world, window);
         window.Update();
